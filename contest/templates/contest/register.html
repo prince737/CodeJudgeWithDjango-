@@ -1,0 +1,107 @@
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+	{% load static%}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}">
+	<link rel="icon" type="image/jpg" href="{% static 'assets/icon.png' %}" />
+	<title>Register</title>
+</head>
+<body>	
+
+	{% if error_message %}
+		<div id="success-modal">
+			<div class="modalcontent">
+				<span class="fa fa-exclamation-triangle"></span>
+				<p class="snap">{{ hello }}</p>
+				<p class="msg">{{ error_message }}</p>
+				<button id="button" class="waves-effect waves-light btn close red lighten-1">Close</button>
+			</div>
+		</div>
+	{% elif success %}
+		<div id="success-modal">
+			<div class="modalconent">
+				<div class="head">
+					<span class="fa fa-check"></span>
+				</div>	
+				<p class="hello">Awesome!</p>
+				<p style="text-align:justify;"> You are all set to begin! Click on <i class="material-icons">open_in_browser</i> icon to login. Rules and regulations will be shown after you login. Be sure to go through them before you begin.</p><br>
+				
+				<button id="button" class="btn btn-sm button">Close</button><br><br>
+			</div>
+		</div>
+	{% endif %}	
+
+	<div class="container">
+	    <div class="register">
+	    	<p class="tag">REGISTER</p>
+	    	<form action="1/" method="post">
+	    		{% csrf_token %}
+	    		<div class="row">
+			        <div class="input-field col s12">
+			            <input id="email" name="team_name" type="text" required>
+			            <label for="email">Team Id</label>
+			        </div>
+			    </div>
+			    <div class="row">
+			        <div class="input-field col s12">
+			            <input id="password" name="pwd" type="password" required>
+			            <label for="password">Password</label>
+			        </div>
+			    </div>
+			    <input type="submit" class="btn1" name="register" value="GO">
+	    	</form>
+	    	<button class="loginbtn" id="loginbtn"><i class="material-icons">open_in_browser</i></button>
+	    </div>
+	    <div class="login" id="login">
+	    	<p class="tag">LOGIN<button type="submit" id="close" class="regbtn"><i class="material-icons">close</i></button></p>
+
+	    	<form action="/contest/begin/" method="post">
+	    		{% csrf_token %}
+	    		<div class="row">
+			        <div class="input-field col s12">
+			            <input id="email1" type="text" name="team_name" required>
+			            <label for="email1" id="lbemail1">Team Id</label>
+			        </div>
+			    </div>
+			    <div class="row">
+			        <div class="input-field col s12" >
+			            <input id="password1" type="password" name="password" required>
+			            <label for="password1" id="lblpw1">Password</label>
+			        </div>
+			    </div>
+			    <input type="submit" name="login" class="btn2" value="NEXT">
+	    	</form>
+	    </div>
+	    </div>
+	</div>
+
+	
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+<script type="text/javascript">
+	$("#loginbtn").click(function(){
+	    $("#login").slideToggle();
+	    $("#loginbtn").addClass("move").removeClass("move1");
+	});
+	$("#close").click(function(){
+	    $("#login").slideToggle();
+	    $("#loginbtn").addClass("move1").removeClass("move");
+	});
+</script>
+<script>
+		window.onload = function () {
+			document.getElementById('button').onclick = function () {
+				document.getElementById('success-modal').style.display = "none"
+				window.location.replace('/register/');
+			};
+		};
+</script>
+</body>
+</html>

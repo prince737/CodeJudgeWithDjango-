@@ -1,0 +1,7 @@
+{% if request.session.team_name %}
+	<h1>Logged in with team name {{ request.session.team_name }}</h1>
+{% else %}
+	HttpResponseRedirect('register/')
+{% endif %}	
+
+<a href="/logout/">logout</a>
