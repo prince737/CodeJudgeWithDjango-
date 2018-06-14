@@ -4,4 +4,12 @@
 	HttpResponseRedirect('register/')
 {% endif %}	
 
-<a href="/logout/">logout</a>
+<a href="/logout/" id="logout">logout</a>
+
+<script>
+		window.onload = function () {
+			document.getElementById('logout').onclick = function () {
+				window.location.replace('register/');
+			};
+		};
+</script>

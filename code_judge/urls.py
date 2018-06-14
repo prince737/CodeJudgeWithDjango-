@@ -21,5 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('register/', include('contest.urls')),
     path('contest/begin/', views.login, name='login'),
-    path('logout/', views.logot, name='login'),
+    path('logout/', views.logout, name='login'),
 ]
