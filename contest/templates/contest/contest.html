@@ -1,15 +1,13 @@
-{% if request.session.team_name %}
+{% if 'team_name' in request.session %}
 	<h1>Logged in with team name {{ request.session.team_name }}</h1>
+	
 {% else %}
-	HttpResponseRedirect('register/')
+	ddd {{user.username}}
+	<form method="POST" action="/logout/">
+		{% csrf_token %}
+		<input type="submit" name="logout" class="btn2" value="LOGOUT">
+	</form>
 {% endif %}	
 
-<a href="/logout/" id="logout">logout</a>
 
-<script>
-		window.onload = function () {
-			document.getElementById('logout').onclick = function () {
-				window.location.replace('register/');
-			};
-		};
-</script>
+

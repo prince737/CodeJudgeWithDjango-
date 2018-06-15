@@ -20,6 +20,7 @@ from contest import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('register/', include('contest.urls')),
-    path('contest/begin/', views.login, name='login'),
+    path('login/', views.login, name='login'),
     path('logout/', views.logout, name='login'),
+    path('contest/begin/', views.contest_begin, name='begin'),
 ]

@@ -25,7 +25,7 @@ SECRET_KEY = '987e8$gh%ef8u4@47n4aaq#l=9@@56iv540gvbonr$yn)*^_d!'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['192.168.2.5', '127.0.0.1']
 
 
 # Application definition
@@ -100,7 +100,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
+#account
+LOGIN_REDIRECT_URL = '/contest/begin/'
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
