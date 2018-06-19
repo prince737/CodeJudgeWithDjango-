@@ -15,48 +15,58 @@
 	<link rel="icon" type="image/jpg" href="{% static 'assets/icon.png' %}" />
 
 </head>
-<body>
-	<div id="success-modal" >
-		<div class="modalcontent z-depth-4">
-			<div class="modalheader z-depth-1">Rules and Regulations</div>
-			<div class="modalbody">
-				<ol>
-					<li>Compliance with fiscal, academic, research, human relations, or other management standards and requirements imposed by federal or state laws or implementing regulations;</li>
-					<li>Procedures and reporting requirements related to implementation or compliance with policies of the Board of Governors or Board of Trustees, or regulations of the Office of the President;</li>
-					<li>Matters not specifically addressed in Board of Governors or Board of Trustees policies or regulations of the Office of the President that are within the general nature of the chancellor’s delegated responsibilities to administer the institution.</li>
-					<li>The following terminology is used to define and indicate the source of authority for the issuance of various policies, regulations and rules (PRRs) by which the institution governs itself.</li>
-					<li>A “policy” is any standard, statement, or procedure of general applicability adopted by the Board of Trustees pursuant to authority delegated by law or the Board of Governors.</li>
-					<li>The following terminology is used to define and indicate the source of authority for the issuance of various policies, regulations and rules (PRRs) by which the institution governs itself.</li>
-					<li>A “policy” is any standard, statement, or procedure of general applicability adopted by the Board of Trustees pursuant to authority delegated by law or the Board of Governors.</li>
-				</ol>
-			</div>
-			<div class="modalfooter">
-				<button class="btn" id="begin">Agree and Begin</button>
-			</div>
-		</div>
-	</div>
+<body onload="timer()">	
 	<div class="container-fluid display-table">
 		<div class="row display-table-row">
 			<div class="col s2 sidebar display-table-cell">
-				<h4 class="team-name">{{user.username}}</h4>
-				<p class="tr">Time Remaining:</p>
+				<center><h4 class="team-name">{{user.username}}</h4></center>
 				<div class="timer">
-					<div class="hour time">01</div>
-					<div class="minute time">48</div>
-					<div class="second time">03</div>
+					<p class="small">TIME</p> <p class="big">REMAINING</p>
+					<div class="time z-depth-2">
+						<span class="hour" id="hour">01</span>
+						<span class="colon">:</span>
+						<span class="min" id="min">49</span>
+						<span class="colon">:</span>
+						<span class="sec" id="sec">33</span>
+					</div>
 				</div>
 
 				<div class="attempted">
-					<div class="q1 q">Question 1: <span>Not Attempted</span></div>
+					<!--<div class="q1 q">Question 1: <span>Not Attempted</span></div>
 					<div class="q2 q">Question 2: <span>Not Attempted</span></div>
 					<div class="q3 q">Question 3: <span>Not Attempted</span></div>
 					<div class="q4 q">Question 4: <span>Not Attempted</span></div>
-					<div class="q5 q">Question 5: <span>Not Attempted</span></div>
+					<div class="q5 q">Question 5: <span>Not Attempted</span></div>-->
+
+					<ul class="collapsible">
+					    <li>
+					        <div class="collapsible-header">Question 1</div>
+					        <div class="collapsible-body"><span>Not attempted yet.</span></div>
+					    </li>
+					    <li>
+					        <div class="collapsible-header">Question 2</div>
+					        <div class="collapsible-body"><span>Not attempted yet.</span></div>
+					    </li>
+					    <li>
+					        <div class="collapsible-header">Question 3</div>
+					        <div class="collapsible-body"><span>Not attempted yet.</span></div>
+					    </li>
+					    <li>
+					        <div class="collapsible-header">Question 4</div>
+					        <div class="collapsible-body"><span>Not attempted yet.</span></div>
+					    </li>
+					    <li>
+					        <div class="collapsible-header">Question 5</div>
+					        <div class="collapsible-body"><span>Not attempted yet.</span></div>
+					    </li>
+					</ul>
+
 				</div>
-					<form method="POST" action="/logout/">
-						{% csrf_token %}
-						<button class="btn waves-effect waves-light" type="submit" name="action">LOGOUT<i class="material-icons right icon-white">send</i></button>
-					</form>
+				<a href="#" class="btn waves-effect waves-light" class="leaderboard">Leaderboard<i class="material-icons right icon-white">assessment</i></a>
+				<form method="POST" action="/logout/">
+					{% csrf_token %}
+					<button class="btn waves-effect waves-light red lighten-1" id="logout" type="submit" name="action">LOGOUT<i class="material-icons right icon-white">send</i></button>
+				</form>
 				
 
 			</div>
@@ -74,67 +84,139 @@
 					    <li class="tab col s2"><a href="#test-swipe-5">Question 5</a></li>
 					</ul>
 					<div id="test-swipe-1" class="col s12 question z-depth-2">
+						<h5>Encryption</h5>
+						<p class="normal-text">An English text needs to be encrypted using the following encryption scheme. </p>
+						<p class="normal-text">First, the spaces are removed from the text. Let '<i>L</i>' be the length of this text. </p>
+						<p class="normal-text">Then, characters are written into a grid, whose rows and columns have the following constraints:</p>
+						<p class="normal-text" style="font-weight: bold; padding-left: 30px; background-color: #f8f8f8;""><i>floor(sqrt(L)) <= row <= column <= ceil(sqrt(L))</i></p>
+						<p class="normal-text">For example, the sentence <i>"if man was meant to stay on the ground god would have given us roots"</i> after removing spaces is <b>54</b> characters long. square root of <b>54</b> is between <b>7</b> and <b>8</b>, so it is written in the form of a grid with 7 rows and 8 columns.</p>
 
-						<p class="normal-text">Given the participants' score sheet for your University Sports Day, you are required to find the runner-up score. You are given scores. Store them in a list and find the score of the runner-up.</p>
+						<p class="background-text">
+							ifmanwas<br>
+							meanttos<br>          
+							tayonthe<br>  
+							groundgo<br> 
+							dwouldha<br>  
+							vegivenu<br>  
+							sroots
+						</p>
+						<ul>
+							<li><b>Ensure that <i>rows * columns >= L</i> </b></li>
+							<li><b>If multiple grids satisfy the above conditions, choose the one with the minimum area, i.e. <i>rows * columns</i></b></li>
+						</ul>
+
+						<p class="normal-text">The encoded message is obtained by displaying the characters in a column, inserting a space, and then displaying the next column and inserting a space, and so on. For example, the encoded message for the above rectangle is:</p>
+						<p class="normal-text" style="color:#212121; background-color: #f8f8f8;">imtgdvs &nbsp;&nbsp; fearwer &nbsp;&nbsp; mayoogo &nbsp;&nbsp; anouuio &nbsp;&nbsp; ntnnlvt &nbsp;&nbsp; wttddes &nbsp;&nbsp; aohghn &nbsp;&nbsp; sseoau</p>
+
+						<p class="normal-text">You will be given a message to encode and print.</p>
 
 						<p class="bold-text">Input Format</p>
 
-						<p class="normal-text">The first line contains . The second line contains an array   of  integers each separated by a space.</p>
+						<p class="normal-text">One line of text, the string <i>s</i></p>
+
+						<p class="bold-text">Constraints</p>
+						<ul>
+							<li>1 <= len(s) <= 81</li>
+							<li><i>s</i> is comprised only of characteres in the range ascii[a-z].</li>
+						</ul>
 
 						<p class="bold-text">Output Format</p>
 
-						<p class="normal-text">Print the runner-up score.</p>
+						<p class="normal-text">Print the encoded message on one line as described.</p>
 
 						<p class="bold-text">Sample Input 0</p>
 
-						<p class="background-text">5 <br>2 3 6 6 5</p>
-
+						<p class="background-text">
+							haveaniceday
+						</p>
 						<p class="bold-text">Sample Output 0</p>
 
-						<p class="background-text">5</p>
+						<p class="background-text">hae and via ecy</p>
 
 						<p class="bold-text">Explanation</p>
 
-						<p class="normal-text">Given list is . The maximum score is , second maximum is . Hence, we print  as the runner-up score.</p>
+						<p class="normal-text"><i>L</i> is 12, square root of 12 is between 3 and 4 hence rewritten with 3 rows and 4 columns.</p>
+						<p class="background-text">
+							have<br>
+							anic<br>
+							eday
+						</p>
+
+						<p class="bold-text">Sample Input 1</p>
+						<p class="background-text">feedthedog</p>
+
+						<p class="bold-text">Sample Output 1s</p>
+						<p class="background-text">fto ehg ee dd</p>
 
 					</div>
 					<div id="test-swipe-2" class="col s12 question z-depth-2">
-						<p class="normal-text">Given the participants' score sheet for your University Sports Day, you are required to find the runner-up score. You are given scores. Store them in a list and find the score of the runner-up.</p>
+						<h5>Diagonal Difference</h5>
+
+						<p class="normal-text">Given a square matrix, calculate the absolute difference between the sums of its diagonals.</p>
 
 						<p class="bold-text">Input Format</p>
 
-						<p class="normal-text">The first line contains . The second line contains an array   of  integers each separated by a space.</p>
+						<p class="normal-text">The first line contains a single integer,  <i>n</i> denoting the number of rows and columns in the matrix <i>a</i>. </p>
+						<p class="normal-text">The next <i>n</i> lines denote the matrix <i>a</i>'s rows, with each line containing <i>n</i> space-separated integers describing the columns. </p>
+
+						<p class="bold-text">Constraints</p>
+						<ul>
+							<li>-100 <= Elements of Matrix <= 100</li>
+						</ul>
 
 						<p class="bold-text">Output Format</p>
 
-						<p class="normal-text">Print the runner-up score.</p>
-
-						<p class="bold-text">Sample Output 0</p>
-
-						<p class="background-text">5</p>
-
-						<p class="bold-text">Explanation</p>
-
-						<p class="normal-text">Given list is . The maximum score is , second maximum is . Hence, we print  as the runner-up score.</p>
-					</div>
-					<div id="test-swipe-3" class="col s12 question z-depth-2">
-						<p class="normal-text">Given the participants' score sheet for your University Sports Day, you are required to find the runner-up score. You are given scores. Store them in a list and find the score of the runner-up.</p>
-
-						<p class="bold-text">Input Format</p>
-
-						<p class="normal-text">The first line contains . The second line contains an array   of  integers each separated by a space.</p>
-
-						<p class="bold-text">Output Format</p>
-
-						<p class="normal-text">Print the runner-up score.</p>
+						<p class="normal-text">Print the absolute difference between the sums of the matrix's two diagonals as a single integer.</p>
 
 						<p class="bold-text">Sample Input 0</p>
 
-						<p class="background-text">5 <br>2 3 6 6 5</p>
+						<p class="background-text">
+							3<br>
+							11  &nbsp; 2 &nbsp; 4<br>
+							4  &nbsp;5 &nbsp; 6<br>
+							10 &nbsp; 8 &nbsp; -12<br>
+						</p>
+						<p class="bold-text">Sample Output 0</p>
+
+						<p class="background-text">15</p>
 
 						<p class="bold-text">Explanation</p>
 
-						<p class="normal-text">Given list is . The maximum score is , second maximum is . Hence, we print  as the runner-up score.</p>
+						<p class="normal-text">The primary diagonal is: 11, 5, -12. Sum is 4.</p>
+						<p class="normal-text">The secondary diagonal is: 4, 5, 10. Sum is 19.</p>
+						<p class="normal-text">Sum across the secondary diagonal: 4 + 5 + 10 = 19 </p>
+						<p class="normal-text">Difference: |4 - 19| = 15</p>
+					</div>
+					<div id="test-swipe-3" class="col s12 question z-depth-2">
+						<h5>Super Long Factorial</h5>
+						<p class="normal-text">The factorial of the integer <i>n</i>, written <i>n</i>, is defined as:</p>
+						<p style="color:#212121; background-color: #f8f8f8; padding: 5px; text-align:center; font-weight: bold;"> n! * (n-1) * (n-2) * (n-3) * ...... * 2 * 1</p>
+
+						<p class="normal-text">Calculate and print the factorial of a given integer.</p>
+						<p class="normal-text"><b>Note:</b> Factorials of <i>n > 20</i> can't be stored even in a <i>64-bit</i> long long variable. Big integers must be used for such calculations. Languages like Java, Python, Ruby etc. can handle big integers, but we need to write additional code in C/C++ to handle huge values. And hence for this problem only valid submissions will be those made in C or C++</p>
+
+						<p class="bold-text">Input Format</p>
+
+						<p class="normal-text">Input consists of a single integer <i>n</i>. </p>
+						<p class="bold-text">Constraints</p>
+						<p class="normal-text"><i>1 <= n <=100 </i></p>
+
+						<p class="bold-text">Output Format</p>
+
+						<p class="normal-text">Print the factorial of <i>n</i></p>
+
+						<p class="bold-text">Sample Input 0</p>
+
+						<p class="background-text">
+							25
+						</p>
+						<p class="bold-text">Sample Output 0</p>
+
+						<p class="background-text">15511210043330985984000000</p>
+
+						<p class="bold-text">Explanation</p>
+
+						<p class="normal-text">25 * 24 * 23 * 22 * 21 * ...... * 2 * 1</p>
 					</div>
 					<div id="test-swipe-4" class="col s12 question z-depth-2">
 
@@ -187,10 +269,10 @@
 							<span>Write Your Code Here</span>
 							
 							<div class="input-field lang">
-							    <select>
-								    <option value="1">C / C++</option>
-								    <option value="2">Java</option>
-								    <option value="3">Python 3</option>
+							    <select onchange="changeMode()" id="mode">
+								    <option value="text/x-csrc">C / C++</option>
+								    <option value="text/x-java">Java</option>
+								    <option value="text/x-python">Python 3</option>
 							    </select>
 							</div>				    
 						</div>	
@@ -203,8 +285,7 @@ int main(){
         //Do Something
 	}
 	return 0; 
-}
-					 	</textarea>		 	
+}</textarea>		 	
 					</div>
 					<p class="checkbox">
 					    <label>
@@ -228,11 +309,6 @@ int main(){
 		</div>
 
 	</div>
-	
-
-
-
-
 
 
 	 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -243,13 +319,13 @@ int main(){
 	 <link rel="stylesheet" type="text/css" href="">
 	 <script type="text/javascript" src="{% static 'plugin/codemirror/lib/codemirror.js' %}"></script>
 	 <script type="text/javascript" src="{% static 'plugin/codemirror/mode/clike/clike.js' %}"></script>
+	 <script type="text/javascript" src="{% static 'plugin/codemirror/mode/python/python.js' %}"></script>
 	 <script type="text/javascript" src="{% static 'plugin/codemirror/addon/hint/show-hint.js' %}"></script>
 	 <script type="text/javascript" src="{% static 'plugin/codemirror/addon/hint/anyword-hint.js' %}"></script>
 	 <script type="text/javascript" src="{% static 'plugin/codemirror/addon/edit/matchbrackets.js' %}"></script>
 	 <script type="text/javascript" src="{% static 'js/selectric.js' %}"></script>
 	 <script type="text/javascript" src="{% static 'js/default.js' %}"></script>
 
-	 <script type="text/javascript" src=""></script>
 	 <script>
 		$(function() {
 		  $('select').selectric();
@@ -265,11 +341,49 @@ int main(){
 		    $("#ciw").slideToggle();   
 		});
 	 </script>
-	 <script>
-		document.getElementById('begin').onclick = function () {
-			document.getElementById('success-modal').style.display = "none"
-		};
-	 </script>
+	<script type="text/javascript">
+
+		var duration = 2*60*60;
+
+		//Start time
+		var d = new Date();
+		//localStorage.removeItem("curr");
+		if(localStorage.getItem("curr") === null){
+			localStorage.setItem("curr",d.getTime());
+		}
+		var start = localStorage.getItem("curr");		
+
+		function timer()
+		{ 
+			var timeLeft = duration - (((Date.now() - start) / 1000) | 0);
+			var hour = Math.floor(timeLeft / 3600);
+	    	var min = Math.floor(timeLeft % 3600 / 60);
+	    	var sec = Math.floor(timeLeft % 3600 % 60);
+			if(timeLeft<=0){
+				clearTimeout(tm);
+			}
+			else{
+				document.getElementById("hour").innerHTML = "0"+hour;
+				document.getElementById("min").innerHTML = min<10?"0"+min:min;
+				document.getElementById("sec").innerHTML = sec<10?"0"+sec:sec;
+			}
+
+			//timeLeft--;
+			var tm = setTimeout(function(){ timer() }, 1000);
+		}
+	</script>
+	<script type="text/javascript">
+		$("#logout").click(function(){
+		    console.log("Logout");
+		});
+		
+	</script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+		    $('.collapsible').collapsible();
+		});
+	</script>
+
 </body>
 
 

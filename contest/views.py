@@ -66,7 +66,7 @@ def login(request):
 		user = authenticate(request, username=team_name, password=pwd)
 		if user is not None:
 			auth_login(request, user)
-			return redirect('/contest/begin/')
+			return redirect('/RulesAndRegulations/')
 		else:
 			return render(request, 'contest/register.html',{
 				'hello' : 'Invalid Credentials!',
@@ -81,6 +81,12 @@ def contest_begin(request):
 	context = {}
 	context['user'] = request.user
 	return render(request, 'contest/contest.html', context)
+
+@login_required(login_url="/register/")
+def rules(request):
+	context = {}
+	context['user'] = request.user
+	return render(request, 'contest/rules.html', context)
 
 def logout(request):
     try:

@@ -6,7 +6,6 @@
 
 body, html{
 	background-color: #f3f7f7;
-	overflow: hidden;
 }
 
 .display-table{
@@ -27,70 +26,18 @@ body, html{
 
 .sidebar{
 	background-color: #37474f;
-}
-
-.sidebar .timer{
-}
-
-.sidebar .team-name{
-	font-weight: bold;
-	font-size: 25px;
-	margin-top: 20px;
 	text-align: center;
 }
 
-.sidebar .tr{
-	margin-top: 50px;
-	margin-bottom: 10px;
-	color:#e7eeef;
-	font-size: 18px;
+.attempted .collapsible .collapsible-body{
+	background: #FFF!important;
+	color:teal;
 }
 
-.sidebar .timer .time{
-	display: inline-block;
-	height:85px;
-	width:70px;
-	color:#fff;
-	font-size: 50px;
-	padding:5px;
-	margin-left: 3px;
-	text-align: center;
-	line-height: 80px;
-	position:relative;
+.attempted .collapsible .collapsible-header{
+	color:teal!important;
 }
 
-.sidebar .timer .time:before{
-	content: "";
-	position: absolute;
-	border: 2px solid #fff;
-	height: 15px;
-	top:35px;
-	left:-4px;
-}
-
-.sidebar .timer .time:after{
-	content: "";
-	position: absolute;
-	border: 2px solid #fff;
-	height: 15px;
-	top:35px;
-	right:-4px;
-}
-
-
-.timer .hour{
-	background-color: #1de9b6;
-
-}
-
-.timer .minute{
-	background-color: #00e5ff;
-}
-
-.timer .second{
-	background-color: #ffab40;
-	
-}
 
 .sidebar .attempted{
 	margin-top: 50px;
@@ -111,9 +58,87 @@ body, html{
 
 .sidebar button{
 	width: 100%;
-	margin-top: 50px;
+	margin-top: 10px;
 }
 
+.sidebar a{
+	width: 100%;
+	margin-top: 50px;
+	display: block;
+}
+
+.sidebar .timer{
+	background-color: #e0f2f1;
+	width: 80%;
+	height: 160px;
+	margin: 0 auto;
+	text-align: center;
+	padding: 15px 0;
+	position: relative;
+	margin-top: 40px;
+}
+
+.timer .time{
+	position: absolute;
+	width: 120%;
+	bottom: 7%;
+	left:-10%;
+	background-color: #fff;
+	height: 80px;
+	line-height: 70px;
+}
+
+.timer .small{
+	font-size: 12px;
+	letter-spacing: 1px;
+	color: #00897b;
+}
+
+.timer .big{
+	font-size: 17px;
+	letter-spacing: 3px;
+	color: #00897b;
+	font-weight: bold;
+}
+
+.time .min, .sec, .hour{
+	color: #212121;
+	font-size: 25px;
+	padding: 0 10px;
+	position: relative;
+}
+
+.time .hour:after, .sec:after, .min:after{
+	position: absolute;
+	font-size: 10px;
+	font-weight: bold;
+	color: #919191;
+	letter-spacing: 0.5px;
+	top:0;
+	
+}
+
+.time .hour:after{
+	content: "HOUR";
+	left: 17%;
+}
+
+.time .min:after{
+	content: "MINS";
+	left: 22%;
+}
+
+.time .sec:after{
+	content: "SECS";
+	left: 22%;
+}
+
+
+
+.time .colon{
+	color: #212121;
+	font-size: 20px;
+}
 
 div.col.s10{
 	padding:0px;
@@ -121,8 +146,8 @@ div.col.s10{
 
 .header{
 	background: #00897b;
-	height: 70px;
-	line-height: 70px;
+	height: 80px;
+	line-height: 80px;
 	padding:0 30px;
 }
 
@@ -148,6 +173,20 @@ div.col.s10{
 	margin-left: auto;
 	margin-right: auto;
 	margin-top: 30px; 
+	line-height: 40px;
+}
+
+.normal-text{
+	margin: 10px 0;
+}
+
+.questions-wrap h5{
+	color: #0e141e;
+	padding: 0;
+	margin: 0px;
+	margin-bottom:20px;
+	font-weight: bold;
+
 }
 
 .question{
@@ -280,79 +319,3 @@ textarea{
 	display: none;
 }
 
-
-/*for modal*/
-
-#success-modal {
-    position: fixed;
-    font-family: Arial, Helvetica, sans-serif;
-    top: 0;
-    left: 0;
-    background-color: #4e505f;
-
-    z-index: 99999;
-    height: 100%;
-    width: 100%;
-    
-}
-
-
-.modalcontent {
-    position: absolute;
-    top: 48%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: #f9f9fb;
-    max-width:700px;
-    border-radius: 4px;
-}
-
-.modalcontent .modalheader{
-	background:#fff;
-	height:100px;
-	padding: 30px;
-	font-size: 30px;
-	color: #ed344e;
-	border-radius: 4px 4px 0 0;
-}
-
-.modalcontent .modalbody{
-	background:#f9f9fb;
-	overflow-y:auto;
-	max-height: 450px;
-	color: #a5a2bc;
-	letter-spacing: 0.6px;
-}
-
-.modalbody ol{
-	padding: 35px 65px;
-}
-
-.modalbody ol li{
-	padding: 5px 0px;
-}
-
-.modalcontent .modalfooter{
-	background:#fff;
-	height:80px;
-	text-align: center;
-	padding:23px 0;
-	border-radius: 0 0 4px 4px;
-	box-shadow: 0px -10px 5px #888;
-}
-
-.modalfooter button{
-	background-color: #ed344e;
-	width: 200px;
-	box-shadow: none;
-}
-
-.modalfooter button:hover{
-	background-color: #ed344e;
-	box-shadow: none;
-}
-
-.modalfooter button:focus{
-	background-color: #ed344e;
-	box-shadow: none;
-}
