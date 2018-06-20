@@ -14,7 +14,7 @@ class team(models.Model):
 
 
 class question(models.Model):
-	statement = models.CharField(max_length=2000, unique = True)
+	statement = models.CharField(max_length=5000, unique = True)
 
 
 @receiver(post_save, sender=question)

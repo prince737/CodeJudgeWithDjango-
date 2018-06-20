@@ -5,7 +5,7 @@ from django.contrib.auth.models import Permission, User
 from django.contrib.auth import login as auth_login,logout as auth_logout,authenticate
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
-from .models import team
+from .models import question
 from .static.functions import *
 from django.db import IntegrityError
 
@@ -66,6 +66,7 @@ def login(request):
 		user = authenticate(request, username=team_name, password=pwd)
 		if user is not None:
 			auth_login(request, user)
+
 			return redirect('/RulesAndRegulations/')
 		else:
 			return render(request, 'contest/register.html',{
@@ -78,15 +79,44 @@ def login(request):
 
 @login_required(login_url="/register/")
 def contest_begin(request):
-	context = {}
-	context['user'] = request.user
-	return render(request, 'contest/contest.html', context)
+	questions = question.objects.all()
+	context = {
+		'questions' : questions,
+		'user' : request.user,
+	}
+	if request.method == 'GET':
+		return render(request, 'contest/contest.html', context)
+	elif request.method == 'POST':
+		code = request.POST.get('code')
+		mode = request.POST.get('mode')
+		qid = request.POST.get('qid')
+		ciw = request.POST.get('ciw')
+
+		print(qid)
+		print(mode)
+		print(code)
+		print(ciw)
+		
+		return render(request, 'contest/contest.html',context)
 
 @login_required(login_url="/register/")
 def rules(request):
 	context = {}
 	context['user'] = request.user
 	return render(request, 'contest/rules.html', context)
+
+'''@login_required(login_url="/register/")
+def run_code(request):
+	if request.method == 'POST':
+		code = request.POST.get('code')
+		mode = request.POST.get('mode')
+		ci = request.POST.get('ci')
+		ciw = request.POST.get('ciw')
+
+		print(mode)
+	print("here")
+	
+	return render(request, 'contest/contest.html')'''
 
 def logout(request):
     try:
