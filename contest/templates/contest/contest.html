@@ -122,13 +122,14 @@
 					</p>	
 					<div class="actions">
 						
-						<input class="run-code btn blue-grey lighten-5" type="submit" id="run" name="run" value="run">
-						<!--<button class="btn waves-effect waves-light" type="submit" name="action">Submit Code<i class="material-icons right icon-white">send</i></button>-->
+						<button class="run-code btn blue-grey lighten-5 submitbutton" type="submit" name="run" id="run">{ }  Run Code</button>
+						<button class="btn waves-effect waves-light submitbutton" type="submit" name="submit" id="submit">Submit Code<i class="material-icons right icon-white">send</i></button>
 					</div>
 					<div class="custom-input-wrap" id="ciw" >
 						<textarea name="ciw" id="custom-input"></textarea>
 					</div>
 				</form>
+				<div id="load" style="display:none;">loading</div>
 				<br><br><br><br><br><br><br><br><br><br>
 			</div>
 
@@ -152,32 +153,6 @@
 	 <script type="text/javascript" src="{% static 'plugin/codemirror/addon/edit/matchbrackets.js' %}"></script>
 	 <script type="text/javascript" src="{% static 'js/selectric.js' %}"></script>
 	 <script type="text/javascript" src="{% static 'js/default.js' %}"></script>
-
-	 <script type="text/javascript">
-
-	 /*	$(document).on('submit', '#codeform', function(e){
-			e.preventDefault();
-			 var ci = 0;
-			if($('ci').is(":checked")){
-				ci = 1;
-			}
-
-			$.ajax({
-				type: 'POST',
-				url: '/run_code/',
-				data: {
-					mode: $('mode').val();
-					code: $('code').val();
-					ci: ci;
-					ciw: $('ciw').val();
-				},
-				success: function(){
-
-				}
-			});
-		});*/
-
-	 </script>
 
 	 <script>
 		$(function() {

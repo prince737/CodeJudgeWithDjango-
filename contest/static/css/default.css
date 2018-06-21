@@ -8,6 +8,14 @@ body, html{
 	background-color: #f3f7f7;
 }
 
+.custom {
+    background-color: #ff5252!important; 
+    color: #fff!important;
+    font-weight: bold!important;
+    font-size: 18px!important;
+    letter-spacing: 1px!important;
+}
+
 .display-table{
 	display: table;
 	width:100%;

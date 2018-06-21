@@ -43,18 +43,32 @@ $('#codeform').on('submit', function(e){
 	var ciw = $('#custom-input').val();
 	var mode = $("#mode :selected").text();
 	var qid = $("#hqid").val();
+	var url = "/contest/begin/";
 
+	if(code==""){
+		M.toast({html: 'Atleast print "hello world!"',classes: 'rounded custom'});
+		return false;
+	}
+
+	var $btn = $(document.activeElement);
+	var event = $btn.prop("id");
+
+	console.log(event);
+
+	$("#load").show();
 	$.ajax({
-		url: "/contest/begin/",
+		url: url,
 		type: "POST",
 		data: {
 			code: code,
 			mode: mode,
 			qid: qid,
 			ciw: ciw,
+			event: event,
 			csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
 		},
 		success: function(){
+			$("#load").hide();
 			alert("submitted");
 		}
 	});

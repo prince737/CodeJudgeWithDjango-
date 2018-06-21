@@ -91,11 +91,13 @@ def contest_begin(request):
 		mode = request.POST.get('mode')
 		qid = request.POST.get('qid')
 		ciw = request.POST.get('ciw')
+		event = request.POST.get('event')
 
 		print(qid)
 		print(mode)
 		print(code)
 		print(ciw)
+		print(event)
 		
 		return render(request, 'contest/contest.html',context)
 
@@ -104,19 +106,6 @@ def rules(request):
 	context = {}
 	context['user'] = request.user
 	return render(request, 'contest/rules.html', context)
-
-'''@login_required(login_url="/register/")
-def run_code(request):
-	if request.method == 'POST':
-		code = request.POST.get('code')
-		mode = request.POST.get('mode')
-		ci = request.POST.get('ci')
-		ciw = request.POST.get('ciw')
-
-		print(mode)
-	print("here")
-	
-	return render(request, 'contest/contest.html')'''
 
 def logout(request):
     try:
