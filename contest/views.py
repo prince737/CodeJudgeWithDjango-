@@ -8,9 +8,9 @@ from django.shortcuts import redirect
 from .models import question
 from .static.functions import *
 from django.db import IntegrityError
-
-
-# Create your views here.
+import os, shutil, errno
+from django.http import JsonResponse
+from subprocess import *
 
 
 
@@ -44,10 +44,23 @@ def register(request):
 		except Exception as e:
 			return render(request, 'contest/register.html',{
 				'error_message' : e,
-			})	
+			})
+
+
+		static_dir = 'contest/static/teams'
+		new_dir_path = os.path.join(static_dir, team_name)
+		try:
+			os.mkdir(new_dir_path, 777)
+		except OSError as e:
+			if e.errno != errno.EEXIST:
+				pass
+			else:
+				print(e)	
+
+
 		return render(request, 'contest/register.html',{
-				'success' : 'success',
-			})	
+			'success' : 'success',
+		})	
 	elif request.method == 'GET':
 		return render(request, 'contest/register.html')
 
@@ -66,7 +79,6 @@ def login(request):
 		user = authenticate(request, username=team_name, password=pwd)
 		if user is not None:
 			auth_login(request, user)
-
 			return redirect('/RulesAndRegulations/')
 		else:
 			return render(request, 'contest/register.html',{
@@ -93,13 +105,27 @@ def contest_begin(request):
 		ciw = request.POST.get('ciw')
 		event = request.POST.get('event')
 
-		print(qid)
-		print(mode)
-		print(code)
-		print(ciw)
-		print(event)
+		dir = "contest/static/teams/"+str(request.user)+"/"
+
+		f = open("%scode.py" %dir, "w")
+		f.write(code)
+		call("cd '%s'" %dir, shell=True)
+
+		f = open("%sop.txt" %dir, "w+")
+		call("cd '%s'; python3 code.py"%dir, shell=True, stdout=f, stderr=f)
+
+		f.seek(0)
+		data=f.readlines()
+		print(type(data))
+
+		context = {
+			'op' : data,
+		}
 		
-		return render(request, 'contest/contest.html',context)
+		os.remove("%sop.txt" %dir)
+		os.remove("%scode.py" %dir)
+
+		return JsonResponse(context, safe=False)
 
 @login_required(login_url="/register/")
 def rules(request):

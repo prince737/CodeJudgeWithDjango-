@@ -19,7 +19,7 @@
 	<div class="container-fluid display-table">
 		<div class="row display-table-row">
 			<div class="col s2 sidebar display-table-cell">
-				<center><h4 class="team-name">{{user.username}}</h4></center>
+				<center><h4 class="team-name" id="team_name">{{user.username}}</h4></center>
 				<div class="timer">
 					<p class="small">TIME</p> <p class="big">REMAINING</p>
 					<div class="time z-depth-2">
@@ -130,6 +130,7 @@
 					</div>
 				</form>
 				<div id="load" style="display:none;">loading</div>
+				<h5 id="op"></h5>
 				<br><br><br><br><br><br><br><br><br><br>
 			</div>
 
@@ -176,10 +177,13 @@
 		//Start time
 		var d = new Date();
 		//localStorage.removeItem("curr");
-		if(localStorage.getItem("curr") === null){
-			localStorage.setItem("curr",d.getTime());
+
+		name = document.getElementById("team_name").innerHTML;
+
+		if(localStorage.getItem(name) === null){
+			localStorage.setItem(name,d.getTime());
 		}
-		var start = localStorage.getItem("curr");		
+		var start = localStorage.getItem(name);		
 
 		function timer()
 		{ 
@@ -195,7 +199,6 @@
 				document.getElementById("min").innerHTML = min<10?"0"+min:min;
 				document.getElementById("sec").innerHTML = sec<10?"0"+sec:sec;
 			}
-
 			//timeLeft--;
 			var tm = setTimeout(function(){ timer() }, 1000);
 		}

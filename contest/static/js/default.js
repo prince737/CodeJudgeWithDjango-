@@ -7,7 +7,7 @@ var editor = CodeMirror.fromTextArea(code, {
     lineWrapping : true,
     extraKeys : {"Ctrl-Space": "autocomplete"}
 });
-editor.setSize(null,600);
+editor.setSize(null,200);
 	 	
 function changeMode(){
 	var x = document.getElementById("mode").value;
@@ -67,9 +67,14 @@ $('#codeform').on('submit', function(e){
 			event: event,
 			csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
 		},
-		success: function(){
+		success: function(context){
 			$("#load").hide();
-			alert("submitted");
+			var a = context.op;
+			var html = '';
+			for (i = 0; i < a.length; ++i) {
+			    html += a[i]+'<br>';
+			}
+			$("#op").html(html);
 		}
 	});
 
