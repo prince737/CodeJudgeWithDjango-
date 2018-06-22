@@ -2,6 +2,7 @@ from django.db import models
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 import os, shutil, errno
+from django.contrib.auth.models import Permission, User
 
 
 # Create your models here.
@@ -38,4 +39,14 @@ def question_deleted(sender, instance, **kwargs):
 	try:
 		shutil.rmtree(new_dir_path)
 	except OSError:
+		print(e)
+
+@receiver(post_delete, sender=User)
+def question_deleted(sender, instance, **kwargs):
+	static_dir = 'contest/static/teams'
+	new_dir = 'question'+str(instance.id)
+	new_dir_path = os.path.join(static_dir, instance.username)
+	try:
+		shutil.rmtree(new_dir_path)
+	except OSError as e:
 		print(e)

@@ -50,7 +50,9 @@ def register(request):
 		static_dir = 'contest/static/teams'
 		new_dir_path = os.path.join(static_dir, team_name)
 		try:
-			os.mkdir(new_dir_path, 777)
+			oldmask = os.umask(000)
+			os.mkdir(new_dir_path)
+			os.umask(oldmask)
 		except OSError as e:
 			if e.errno != errno.EEXIST:
 				pass
@@ -105,25 +107,81 @@ def contest_begin(request):
 		ciw = request.POST.get('ciw')
 		event = request.POST.get('event')
 
+		#print(code)
+
 		dir = "contest/static/teams/"+str(request.user)+"/"
 
-		f = open("%scode.py" %dir, "w")
-		f.write(code)
-		call("cd '%s'" %dir, shell=True)
+		if mode =='Python 3':
+			f = open("%scode.py" %dir, "w")
+			f.write(code)
 
-		f = open("%sop.txt" %dir, "w+")
-		call("cd '%s'; python3 code.py"%dir, shell=True, stdout=f, stderr=f)
+			f = open("%sop.txt" %dir, "w+")
+			call("cd '%s'; python3 code.py"%dir, shell=True, stdout=f, stderr=f)
 
-		f.seek(0)
-		data=f.readlines()
-		print(type(data))
+			f.seek(0)
+			data=f.readlines()
+			print(type(data))
 
-		context = {
-			'op' : data,
-		}
-		
-		os.remove("%sop.txt" %dir)
-		os.remove("%scode.py" %dir)
+			context = {
+				'op' : data,
+			}
+			
+			os.remove("%sop.txt" %dir)
+			os.remove("%scode.py" %dir)
+		elif mode == 'C / C++':
+			f = open("%scode.cpp" %dir, "w+")
+			
+			f.write(code)
+			f.seek(0)
+
+			c = open("%scompile.txt" %dir, "w+")
+			call("cd '%s'; g++ code.cpp"%dir, shell=True, stdout=c, stderr=c)
+
+			o = open("%sop.txt" %dir, "w+")
+			if os.stat("%scompile.txt" %dir).st_size == 0:
+				call("cd '%s'; ./a.out" %dir, shell=True, stdout=o, stderr=o)
+				o.seek(0)
+				data=o.readlines()
+			else:
+				c.seek(0)
+				data=c.readlines()
+			
+
+			context = {
+				'op' : data,
+			}
+			
+			os.remove("%sop.txt" %dir)
+			os.remove("%scode.cpp" %dir)
+			os.remove("%scompile.txt" %dir)
+
+		elif mode == 'Java 8':
+			f = open("%sMain.java" %dir, "w+")
+			
+			f.write(code)
+			f.seek(0)
+
+			c = open("%scompile.txt" %dir, "w+")
+			call("cd '%s'; javac Main.java"%dir, shell=True, stdout=c, stderr=c)
+
+			o = open("%sop.txt" %dir, "w+")
+			if os.stat("%scompile.txt" %dir).st_size == 0:
+				call("cd '%s'; java Main" %dir, shell=True, stdout=o, stderr=o)
+				o.seek(0)
+				data=o.readlines()
+			else:
+				c.seek(0)
+				data=c.readlines()
+			
+
+			context = {
+				'op' : data,
+			}
+			
+			os.remove("%sop.txt" %dir)
+			os.remove("%sMain.java" %dir)
+			os.remove("%scompile.txt" %dir)
+
 
 		return JsonResponse(context, safe=False)
 
