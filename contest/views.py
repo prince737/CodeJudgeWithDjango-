@@ -5,7 +5,7 @@ from django.contrib.auth.models import Permission, User
 from django.contrib.auth import login as auth_login,logout as auth_logout,authenticate
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
-from .models import question
+from .models import question, timeRemaining
 from .static.functions import *
 from django.db import IntegrityError
 import os, shutil, errno
@@ -94,9 +94,16 @@ def login(request):
 @login_required(login_url="/register/")
 def contest_begin(request):
 	questions = question.objects.all()
+
+	try:
+		t = timeRemaining.objects.only('time').get(user=request.user)
+		time = t.time
+	except timeRemaining.DoesNotExist:
+		time = ''
 	context = {
 		'questions' : questions,
 		'user' : request.user,
+		'time' : time,
 	}
 	if request.method == 'GET':
 		return render(request, 'contest/contest.html', context)
@@ -107,95 +114,151 @@ def contest_begin(request):
 		ciw = request.POST.get('ciw')
 		event = request.POST.get('event')
 
-		#print(code)
-
+		
+		#directory path of teams
 		dir = "contest/static/teams/"+str(request.user)+"/"
+		err = ''
 
-		if mode =='Python 3':
-			f = open("%scode.py" %dir, "w")
-			f.write(code)
+		#setting input file
+		if ciw.strip():
+			ip = open("%sip.txt" %dir, "w+")
+			ip.write(ciw)
+			ip.seek(0)
 
-			f = open("%sop.txt" %dir, "w+")
-			call("cd '%s'; python3 code.py"%dir, shell=True, stdout=f, stderr=f)
+		if event == "run":
+			if mode =='Python 3': 
+				f = open("%scode.py" %dir, "w")
+				f.write(code)
 
-			f.seek(0)
-			data=f.readlines()
-			print(type(data))
+				#compile
+				f = open("%sop.txt" %dir, "w+")
 
-			context = {
-				'op' : data,
-			}
-			
-			os.remove("%sop.txt" %dir)
-			os.remove("%scode.py" %dir)
-		elif mode == 'C / C++':
-			f = open("%scode.cpp" %dir, "w+")
-			
-			f.write(code)
-			f.seek(0)
+				#check if custom input is supplied and run accordingly
+				if os.path.isfile("%sip.txt" %dir):
+					print("here")
+					call("cd '%s'; python3 code.py"%dir, shell=True, stdin=ip, stdout=f, stderr=f)
+					os.remove("%sip.txt" %dir)
+				else:
+					call("cd '%s'; python3 code.py"%dir, shell=True, stdout=f, stderr=f)					
 
-			c = open("%scompile.txt" %dir, "w+")
-			call("cd '%s'; g++ code.cpp"%dir, shell=True, stdout=c, stderr=c)
+				#copy file contents to local variable
+				f.seek(0)
+				data=f.read()
 
-			o = open("%sop.txt" %dir, "w+")
-			if os.stat("%scompile.txt" %dir).st_size == 0:
-				call("cd '%s'; ./a.out" %dir, shell=True, stdout=o, stderr=o)
-				o.seek(0)
-				data=o.readlines()
-			else:
-				c.seek(0)
-				data=c.readlines()
-			
+				#format output
+				data = data.replace('	', '&nbsp;&nbsp;&nbsp;&nbsp;');
+				data = data.replace(' ', '&nbsp;');
+				data = data.replace('\n', '<br>');
 
-			context = {
-				'op' : data,
-			}
-			
-			os.remove("%sop.txt" %dir)
-			os.remove("%scode.cpp" %dir)
-			os.remove("%scompile.txt" %dir)
+				#check if compilation error exixts
+				if data.find('code.py') != -1:
+					err = 'Compilation Error'
 
-		elif mode == 'Java 8':
-			f = open("%sMain.java" %dir, "w+")
-			
-			f.write(code)
-			f.seek(0)
+				#create context
+				context = {
+					'op' : data,
+					'err' : err,
+				}				
 
-			c = open("%scompile.txt" %dir, "w+")
-			call("cd '%s'; javac Main.java"%dir, shell=True, stdout=c, stderr=c)
+				#remove all temporary files
+				os.remove("%sop.txt" %dir)
+				os.remove("%scode.py" %dir)
+				
+			elif mode == 'C / C++':
+				f = open("%scode.cpp" %dir, "w+")
+				
 
-			o = open("%sop.txt" %dir, "w+")
-			if os.stat("%scompile.txt" %dir).st_size == 0:
-				call("cd '%s'; java Main" %dir, shell=True, stdout=o, stderr=o)
-				o.seek(0)
-				data=o.readlines()
-			else:
-				c.seek(0)
-				data=c.readlines()
-			
+				f.write(code)
+				f.seek(0)
 
-			context = {
-				'op' : data,
-			}
-			
-			os.remove("%sop.txt" %dir)
-			os.remove("%sMain.java" %dir)
-			os.remove("%scompile.txt" %dir)
+				c = open("%scompile.txt" %dir, "w+")
+				call("cd '%s'; g++ code.cpp"%dir, shell=True, stdout=c, stderr=c)
+
+				o = open("%sop.txt" %dir, "w+")
+
+				#check if compilation error exists
+				if os.stat("%scompile.txt" %dir).st_size == 0:
+
+					#check if custom input supplied
+					if os.path.isfile("%sip.txt" %dir):
+						call("cd '%s'; ./a.out" %dir, shell=True, stdin=ip, stdout=o, stderr=o)
+						os.remove("%sip.txt" %dir)
+					else:
+						call("cd '%s'; ./a.out" %dir, shell=True, stdout=o, stderr=o)
+					o.seek(0)
+					data=o.read()
+				else:
+					c.seek(0)
+					data=c.read()
+					err = 'Compilation Error'
+
+				#format output
+				data = data.replace('	', '&nbsp;&nbsp;&nbsp;&nbsp;');
+				data = data.replace(' ', '&nbsp;');
+				data = data.replace('\n', '<br>');
+
+				print(data)
+
+				context = {
+					'op' : data,
+					'err' : err,
+				}
+				
+				#os.remove("%sop.txt" %dir)
+				#os.remove("%scode.cpp" %dir)
+				#os.remove("%scompile.txt" %dir)
+
+			elif mode == 'Java 8':
+				f = open("%sMain.java" %dir, "w+")
+				
+				f.write(code)
+				f.seek(0)
+
+				c = open("%scompile.txt" %dir, "w+")
+				call("cd '%s'; javac Main.java"%dir, shell=True, stdout=c, stderr=c)
+
+				o = open("%sop.txt" %dir, "w+")
+				if os.stat("%scompile.txt" %dir).st_size == 0:
+					call("cd '%s'; java Main" %dir, shell=True, stdout=o, stderr=o)
+					o.seek(0)
+					data=o.read()
+				else:
+					c.seek(0)
+					data=c.read()
+					err = 'Compilation Error'
+
+				data = data.replace('	', '&nbsp;&nbsp;&nbsp;&nbsp;');
+				data = data.replace(' ', '&nbsp;');
+				data = data.replace('\n', '<br>');
+
+				context = {
+					'op' : data,
+					'err' : err,
+				}
+				
+				os.remove("%sop.txt" %dir)
+				os.remove("%sMain.java" %dir)
+				os.remove("%scompile.txt" %dir)
+		elif event == 'submit':
+			return render(request, 'contest/contest.html',)
 
 
 		return JsonResponse(context, safe=False)
 
 @login_required(login_url="/register/")
 def rules(request):
+	return render(request, 'contest/rules.html',)
+
+def leaderboard(request):
 	context = {}
 	context['user'] = request.user
-	return render(request, 'contest/rules.html', context)
+	return render(request, 'contest/leaderboard.html', context)
 
 def logout(request):
-    try:
-        auth_logout(request)
-    except KeyError:
-        pass
-    
-    return render(request, 'contest/register.html')
+	
+	try:
+		 auth_logout(request)
+	except KeyError:
+		pass
+	return render(request, 'contest/register.html')
 

@@ -17,6 +17,10 @@ class team(models.Model):
 class question(models.Model):
 	statement = models.CharField(max_length=5000, unique = True)
 
+class timeRemaining(models.Model):
+	user = models.OneToOneField(User, primary_key=True, on_delete=models.CASCADE)
+	time = models.IntegerField()
+
 
 @receiver(post_save, sender=question)
 def question_inserted(sender, instance, created, **kwargs):

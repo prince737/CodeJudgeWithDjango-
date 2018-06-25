@@ -2,12 +2,13 @@ var code = $(".codemirror-textarea")[0];
 var editor = CodeMirror.fromTextArea(code, {
 	lineNumbers: true,
     matchBrackets: true,
+    autoCloseBrackets: true,
     mode: "text/x-c++src", //"text/x-java", "text/x-csrc", "text/x-python", 
     indentUnit : 4,
     lineWrapping : true,
     extraKeys : {"Ctrl-Space": "autocomplete"}
 });
-editor.setSize(null,200);
+editor.setSize(null,400);
 	 	
 function changeMode(){
 	var x = document.getElementById("mode").value;
@@ -39,13 +40,16 @@ $("#q3").click(function(){
 $('#codeform').on('submit', function(e){
 	e.preventDefault();
 	
+	
+	$("#output").hide();
+
 	var code = $('#code').val();
 	var ciw = $('#custom-input').val();
 	var mode = $("#mode :selected").text();
 	var qid = $("#hqid").val();
 	var url = "/contest/begin/";
 
-	if(code==""){
+	if(code.trim()==""){
 		M.toast({html: 'Atleast print "hello world!"',classes: 'rounded custom'});
 		return false;
 	}
@@ -53,9 +57,7 @@ $('#codeform').on('submit', function(e){
 	var $btn = $(document.activeElement);
 	var event = $btn.prop("id");
 
-	console.log(event);
-
-	$("#load").show();
+	$("#load").show();	
 	$.ajax({
 		url: url,
 		type: "POST",
@@ -69,12 +71,27 @@ $('#codeform').on('submit', function(e){
 		},
 		success: function(context){
 			$("#load").hide();
-			var a = context.op;
-			var html = '';
-			for (i = 0; i < a.length; ++i) {
-			    html += a[i]+'<br>';
+			var a;
+			if(context.op==null){
+				$("#op").html("Submission is broken!");
+				$("#output").show();
+				$("#err").hide();
+				$("#succ").hide();
 			}
-			$("#op").html(html);
+			else{
+				if(context.err === ""){
+					$("#succ").show();
+					$("#err").hide();
+				}
+				else{
+					$("#err").show();
+					$("#succ").hide();
+				}
+					
+				$("#output").show();
+				$("#op").html(context.op);
+			}
+			
 		}
 	});
 

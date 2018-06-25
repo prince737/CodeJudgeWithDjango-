@@ -16,6 +16,13 @@ body, html{
     letter-spacing: 1px!important;
 }
 
+#toast-container {
+  top: auto !important;
+  left: auto !important;
+  bottom: 22%;
+  right:2%;  
+}
+
 .display-table{
 	display: table;
 	width:100%;
@@ -185,7 +192,7 @@ div.col.s10{
 }
 
 .normal-text{
-	margin: 10px 0;
+	margin: 5px 0;
 }
 
 .question h5{
@@ -314,12 +321,137 @@ textarea{
 	height: 100px;
 	width:350px;
 	background: #e7eeef;
-	outline-color: #576871;
+	outline-color: #909090;
 	border:none;
 	border-radius: 3px;
+}
+
+.custom-input-wrap textarea{
+	padding: 5px;
 }
 
 #ciw{
 	display: none;
 }
 
+/*output*/
+
+.output{
+	width:95%;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 50px;
+}
+
+.output .err, .succ{
+	font-size: 25px;
+	color:#f50057;
+	text-align: center;
+	font-weight: bold;
+	letter-spacing: .6px;
+}
+
+.output .succ{
+	color:#43a047;
+}
+
+.output .tag{
+	text-align: center;
+	font-size: 16px;
+}
+
+.output .op_box{
+	height: auto;
+	margin-top: 20px;
+	padding: 40px;
+	font-size: 20px;
+	overflow-x: scroll;
+}
+
+/*loader*/
+
+#load{
+	text-align: center;
+	margin-top: 40px;
+	position: relative;
+	display: none;
+}
+
+
+.loader{
+	width: 50px;
+	height: 50px;
+	position: absolute;
+	left: 48%;
+	transform: rotate(45deg);
+	animation: animate 1s linear infinite;
+}
+
+.loader span{
+	position: absolute;
+	width: 25px;
+	height: 25px;
+	background: #f00;
+	animation: rotate 1s linear infinite;
+}
+
+.loader span:nth-child(1){
+	top: 0;
+	left: 0;
+	background-color: teal;
+}
+
+.loader span:nth-child(2){
+	top: 0;
+	right: 0;
+	background-color: teal;
+}
+
+.loader span:nth-child(3){
+	bottom: 0;
+	left: 0;
+	background-color: teal;
+}
+
+.loader span:nth-child(4){
+	bottom: 0;
+	right: 0;
+	background-color: teal;
+}
+
+@keyframes animate
+{
+	0%{
+		width: 50px;
+		height: 50px;
+	}
+	10%{
+		width: 50px;
+		height: 50px;
+	}
+	50%{
+		width: 70px;
+		height: 70px;
+	}
+
+}
+
+@keyframes rotate
+{
+	0%{
+		transform: rotate(0deg);
+	}
+	10%{
+		transform: rotate(0deg);
+	}
+	50%{
+		transform: rotate(90deg);
+	}
+	90%{
+		transform: rotate(90deg);
+	}
+	100%{
+		transform: rotate(90deg);
+	}
+
+}

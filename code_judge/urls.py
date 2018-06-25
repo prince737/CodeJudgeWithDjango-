@@ -24,4 +24,5 @@ urlpatterns = [
     path('logout/', views.logout, name='login'),
     path('contest/begin/', views.contest_begin, name='begin'),
     path('RulesAndRegulations/', views.rules, name='begin'),
+    path('leaderboard/', views.leaderboard, name='leaderboard'),
 ]

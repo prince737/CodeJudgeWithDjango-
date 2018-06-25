@@ -30,7 +30,7 @@
 						<span class="sec" id="sec">33</span>
 					</div>
 				</div>
-
+				<span id="span" style="display:none;">{{time}}</span>
 				<div class="attempted">
 					<!--<div class="q1 q">Question 1: <span>Not Attempted</span></div>
 					<div class="q2 q">Question 2: <span>Not Attempted</span></div>
@@ -62,10 +62,11 @@
 					</ul>
 
 				</div>
-				<a href="#" class="btn waves-effect waves-light" class="leaderboard">Leaderboard<i class="material-icons right icon-white">assessment</i></a>
+				<a href="/leaderboard/" class="btn waves-effect waves-light" class="leaderboard">Leaderboard<i class="material-icons right icon-white">assessment</i></a>
 				<form method="POST" action="/logout/">
 					{% csrf_token %}
 					<button class="btn waves-effect waves-light red lighten-1" id="logout" type="submit" name="action">LOGOUT<i class="material-icons right icon-white">send</i></button>
+					<input type="hidden" name="time" id="time">
 				</form>
 				
 
@@ -80,8 +81,8 @@
 					    <li class="tab col s2"><a class="active" href="#test-swipe-1" id="q1">Question 1</a></li>
 					    <li class="tab col s2"><a href="#test-swipe-2" id="q2">Question 2</a></li>
 					    <li class="tab col s2"><a href="#test-swipe-3" id="q3">Question 3</a></li>
-					    <!--<li class="tab col s2"><a href="#test-swipe-4" id="q4">Question 4</a></li>
-					    <li class="tab col s2"><a href="#test-swipe-5" id="q5">Question 5</a></li>-->
+					    <li class="tab col s2"><a href="#test-swipe-4" id="q4">Question 4</a></li>
+					    <li class="tab col s2"><a href="#test-swipe-5" id="q5">Question 5</a></li>
 					</ul>
 
 					{% for q in questions %}
@@ -112,7 +113,20 @@
 							    </select>
 							</div>				    
 						</div>	
-					 	<textarea class="codemirror-textarea code" rows="10" id="code" name="code"></textarea>		 	
+					 	<textarea class="codemirror-textarea code" rows="10" id="code" name="code">
+import math as m
+
+def prime(n):
+	if a%2==0 or a%3==0:
+		return("Not Prime")
+	for i in range(5,int(m.sqrt(n))):
+		if(a%i==0):
+			return("Not Prime")
+	return("Prime")
+
+a=int(input())
+print(prime(a))
+#160479503</textarea>		 	
 					</div>
 					<p class="checkbox">
 					    <label>
@@ -129,15 +143,38 @@
 						<textarea name="ciw" id="custom-input"></textarea>
 					</div>
 				</form>
-				<div id="load" style="display:none;">loading</div>
-				<h5 id="op"></h5>
-				<br><br><br><br><br><br><br><br><br><br>
+				<div id="load">
+					<div class="loader">
+						<span></span>
+						<span></span>
+						<span></span>
+						<span></span>
+					</div>
+					<h5 id="load-text"><br><br><br>A moment please!</h5>
+				</div>
+				
+				<div class="output" id="output" style="display: none;">
+					<div id="err" style="display: none;">
+						<p class="err">Compilation Error :( <br></p>
+						<p class="tag">Check the compiler output, fix the error and try again.</p>
+					</div>
+
+					<div id="succ" style="display: none;">
+						<p class="succ">Compilation Successful :) <br></p>
+						<p class="tag">Click the Submit Code button to run your code against all the test cases.</p>
+					</div>
+					<div class="op_box z-depth-2" id="op"></div>
+				</div>
+				<br><br><br><br><br><br>
 			</div>
 
 
 		</div>
 
 	</div>
+
+
+
 
 
 	 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -152,6 +189,7 @@
 	 <script type="text/javascript" src="{% static 'plugin/codemirror/addon/hint/show-hint.js' %}"></script>
 	 <script type="text/javascript" src="{% static 'plugin/codemirror/addon/hint/anyword-hint.js' %}"></script>
 	 <script type="text/javascript" src="{% static 'plugin/codemirror/addon/edit/matchbrackets.js' %}"></script>
+	 <script type="text/javascript" src="{% static 'plugin/codemirror/addon/edit/closebrackets.js' %}"></script>
 	 <script type="text/javascript" src="{% static 'js/selectric.js' %}"></script>
 	 <script type="text/javascript" src="{% static 'js/default.js' %}"></script>
 
@@ -172,18 +210,25 @@
 	 </script>
 	<script type="text/javascript">
 
-		var duration = 2*60*60;
-
-		//Start time
+		var duration = 2 * 60 * 60;
+	
 		var d = new Date();
-		//localStorage.removeItem("curr");
 
 		name = document.getElementById("team_name").innerHTML;
+		time = document.getElementById("span").innerHTML;
+		console.log(time);
+		//localStorage.removeItem(name);
 
 		if(localStorage.getItem(name) === null){
-			localStorage.setItem(name,d.getTime());
+			if(time === null)
+				localStorage.setItem(name,d.getTime());
+			else
+				localStorage.setItem(name,time);
 		}
-		var start = localStorage.getItem(name);		
+
+
+		var start = localStorage.getItem(name);	
+		document.getElementById("time").value = start;	
 
 		function timer()
 		{ 
@@ -193,11 +238,12 @@
 	    	var sec = Math.floor(timeLeft % 3600 % 60);
 			if(timeLeft<=0){
 				clearTimeout(tm);
+				alert("contest ended");
 			}
 			else{
 				document.getElementById("hour").innerHTML = "0"+hour;
 				document.getElementById("min").innerHTML = min<10?"0"+min:min;
-				document.getElementById("sec").innerHTML = sec<10?"0"+sec:sec;
+				document.getElementById("sec").innerHTML = sec<10?"0"+sec:sec;				
 			}
 			//timeLeft--;
 			var tm = setTimeout(function(){ timer() }, 1000);
