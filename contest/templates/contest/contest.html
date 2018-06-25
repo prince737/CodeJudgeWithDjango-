@@ -16,6 +16,19 @@
 
 </head>
 <body onload="timer()">	
+
+	<div id="success-modal">
+		<div class="modalcontent">
+			<div class="icon"><span class="fa fa-check teal lighten-1"></span></div>
+			<h4 class="snap">Awesome!</h4>
+			<p class="msg">You have successfully completed the prelims of Generic name.</p>
+			<form method="POST" action="/logout/leaderboard/">
+				{% csrf_token %}
+				<button id="button" class="waves-effect btn close teal lighten-1">Logout and check the leaderboard</button>
+			</form>
+		</div>
+	</div>
+
 	<div class="container-fluid display-table">
 		<div class="row display-table-row">
 			<div class="col s2 sidebar display-table-cell">
@@ -30,7 +43,7 @@
 						<span class="sec" id="sec">33</span>
 					</div>
 				</div>
-				<span id="span" style="display:none;">{{time}}</span>
+				<span id="span">{{time}}</span>
 				<div class="attempted">
 					<!--<div class="q1 q">Question 1: <span>Not Attempted</span></div>
 					<div class="q2 q">Question 2: <span>Not Attempted</span></div>
@@ -65,8 +78,11 @@
 				<a href="/leaderboard/" class="btn waves-effect waves-light" class="leaderboard">Leaderboard<i class="material-icons right icon-white">assessment</i></a>
 				<form method="POST" action="/logout/">
 					{% csrf_token %}
-					<button class="btn waves-effect waves-light red lighten-1" id="logout" type="submit" name="action">LOGOUT<i class="material-icons right icon-white">send</i></button>
-					<input type="hidden" name="time" id="time">
+					<button class="btn waves-effect waves-light amber darken-2" id="logout" type="submit" name="action">LOGOUT<i class="material-icons right icon-white">power_settings_new</i></button>
+				</form>
+				<form method="POST" action="/give_up/">
+					{% csrf_token %}
+					<button class="btn waves-effect waves-light red lighten-1" id="logout" type="submit" name="action">Give Up<i class="material-icons right icon-white">thumb_down</i></button>
 				</form>
 				
 
@@ -216,19 +232,18 @@ print(prime(a))
 
 		name = document.getElementById("team_name").innerHTML;
 		time = document.getElementById("span").innerHTML;
-		console.log(time);
 		//localStorage.removeItem(name);
 
 		if(localStorage.getItem(name) === null){
-			if(time === null)
+			/*if(time === null)
 				localStorage.setItem(name,d.getTime());
-			else
+			else*/
 				localStorage.setItem(name,time);
 		}
 
 
 		var start = localStorage.getItem(name);	
-		document.getElementById("time").value = start;	
+		console.log(start);
 
 		function timer()
 		{ 
@@ -238,7 +253,7 @@ print(prime(a))
 	    	var sec = Math.floor(timeLeft % 3600 % 60);
 			if(timeLeft<=0){
 				clearTimeout(tm);
-				alert("contest ended");
+				document.getElementById("success-modal").style.display = "block";
 			}
 			else{
 				document.getElementById("hour").innerHTML = "0"+hour;

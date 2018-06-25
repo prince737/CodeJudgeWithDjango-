@@ -20,6 +20,7 @@ class question(models.Model):
 class timeRemaining(models.Model):
 	user = models.OneToOneField(User, primary_key=True, on_delete=models.CASCADE)
 	time = models.IntegerField()
+	completion = models.BooleanField(default=False)
 
 
 @receiver(post_save, sender=question)

@@ -23,6 +23,8 @@ urlpatterns = [
     path('login/', views.login, name='login'),
     path('logout/', views.logout, name='login'),
     path('contest/begin/', views.contest_begin, name='begin'),
-    path('RulesAndRegulations/', views.rules, name='begin'),
+    path('RulesAndRegulations/', views.rules, name='rules'),
     path('leaderboard/', views.leaderboard, name='leaderboard'),
+    path('give_up/', views.give_up, name='give_up'),
+    path('logout/leaderboard/', views.lleaderboard, name='lleaderboard'),
 ]

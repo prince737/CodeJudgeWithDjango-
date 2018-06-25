@@ -11,6 +11,7 @@ from django.db import IntegrityError
 import os, shutil, errno
 from django.http import JsonResponse
 from subprocess import *
+import datetime
 
 
 
@@ -80,6 +81,17 @@ def login(request):
 
 		user = authenticate(request, username=team_name, password=pwd)
 		if user is not None:
+			
+			try:
+				completion_status = timeRemaining.objects.get(user=user.id)
+				if completion_status.completion == True:
+					return render(request, 'contest/register.html',{
+						'hello' : 'Oh snap!',
+						'error_message' : 'Looks like have already completed prelims. Please wait for the results to be announced.',
+					})
+			except timeRemaining.DoesNotExist:
+				pass
+			
 			auth_login(request, user)
 			return redirect('/RulesAndRegulations/')
 		else:
@@ -93,13 +105,20 @@ def login(request):
 
 @login_required(login_url="/register/")
 def contest_begin(request):
+
 	questions = question.objects.all()
+
 
 	try:
 		t = timeRemaining.objects.only('time').get(user=request.user)
 		time = t.time
 	except timeRemaining.DoesNotExist:
-		time = ''
+		dt = datetime.datetime.now()
+		time = int(dt.strftime("%s")) * 1000
+		a = timeRemaining.objects.create(user= request.user, time=time)
+		a.save()
+
+
 	context = {
 		'questions' : questions,
 		'user' : request.user,
@@ -107,6 +126,8 @@ def contest_begin(request):
 	}
 	if request.method == 'GET':
 		return render(request, 'contest/contest.html', context)
+
+
 	elif request.method == 'POST':
 		code = request.POST.get('code')
 		mode = request.POST.get('mode')
@@ -204,9 +225,9 @@ def contest_begin(request):
 					'err' : err,
 				}
 				
-				#os.remove("%sop.txt" %dir)
-				#os.remove("%scode.cpp" %dir)
-				#os.remove("%scompile.txt" %dir)
+				os.remove("%sop.txt" %dir)
+				os.remove("%scode.cpp" %dir)
+				os.remove("%scompile.txt" %dir)
 
 			elif mode == 'Java 8':
 				f = open("%sMain.java" %dir, "w+")
@@ -255,10 +276,40 @@ def leaderboard(request):
 	return render(request, 'contest/leaderboard.html', context)
 
 def logout(request):
-	
+	'''t = request.POST.get('time')
+	try:
+		time = timeRemaining.objects.get(user=request.user)
+		time.time = t
+		time.save()
+	except timeRemaining.DoesNotExist:
+		a = timeRemaining(user=request.user, time=t)
+		a.save()'''
 	try:
 		 auth_logout(request)
 	except KeyError:
 		pass
 	return render(request, 'contest/register.html')
 
+def give_up(request):
+	try:
+		time = timeRemaining.objects.get(user=request.user)
+		time.completion = True
+		time.save()
+		auth_logout(request)
+	except timeRemaining.DoesNotExist:
+		pass
+	except KeyError:
+		pass	
+	return render(request, 'contest/register.html')
+
+def lleaderboard(request):
+	try:
+		time = timeRemaining.objects.get(user=request.user)
+		time.completion = True
+		time.save()
+		auth_logout(request)
+	except timeRemaining.DoesNotExist:
+		pass
+	except KeyError:
+		pass	
+	return render(request, 'contest/leaderboard.html')
