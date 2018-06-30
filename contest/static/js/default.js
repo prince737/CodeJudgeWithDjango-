@@ -20,27 +20,22 @@ function changeMode(){
 var val = 1;
 
 $("#q1").click(function(){
-	alert("1")
 	val = 1;
 });
 
 $("#q2").click(function(){
-	alert("2")
 	val = 2;
 });
 
 $("#q3").click(function(){
-	alert("3")
 	val = 3;
 });
 
 $("#q4").click(function(){
-	alert("4")
 	val = 4;
 });
 
 $("#q5").click(function(){
-	alert("5")
 	val = 5;
 });
 
@@ -90,7 +85,7 @@ $('#codeform').on('submit', function(e){
 					$("#wrong").hide();
 					$("#compile").hide();
 					$("#tle").hide();
-					$("accepted").show()
+					$("#accepted").show()
 				}
 				else if(context.op == 'Wrong Answer!'){
 					$("#err").hide();
@@ -98,7 +93,7 @@ $('#codeform').on('submit', function(e){
 					$("#wrong").show();
 					$("#compile").hide();
 					$("#tle").hide();
-					$("accepted").hide()
+					$("#accepted").hide()
 				}
 				else if(context.op == 'Time Limit Exceeded!'){
 					$("#err").hide();
@@ -106,7 +101,7 @@ $('#codeform').on('submit', function(e){
 					$("#wrong").hide();
 					$("#compile").hide();
 					$("#tle").show();
-					$("accepted").hide()
+					$("#accepted").hide()
 				}
 				else if(context.op == 'Compilation Error!'){
 					$("#err").hide();
@@ -114,7 +109,7 @@ $('#codeform').on('submit', function(e){
 					$("#wrong").hide();
 					$("#compile").show();
 					$("#tle").hide();
-					$("accepted").hide()
+					$("#accepted").hide()
 				}
 			}
 			else{
@@ -126,6 +121,8 @@ $('#codeform').on('submit', function(e){
 					$("#err").show();
 					$("#succ").hide();
 				}
+
+				console.log(context.op);
 					
 				$("#output").show();
 				$("#op").html(context.op);
