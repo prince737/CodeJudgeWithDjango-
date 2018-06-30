@@ -1,5 +1,5 @@
 <head>
-	<title>Code Judge</title>
+	<title>Generic Name</title>
 	
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i" rel="stylesheet">
@@ -24,7 +24,7 @@
 			<p class="msg">You have successfully completed the prelims of Generic name.</p>
 			<form method="POST" action="/logout/leaderboard/">
 				{% csrf_token %}
-				<button id="button" class="waves-effect btn close teal lighten-1">Logout and check the leaderboard</button>
+				<button id="finish" class="waves-effect btn close teal lighten-1">Logout and check the leaderboard</button>
 			</form>
 		</div>
 	</div>
@@ -43,13 +43,8 @@
 						<span class="sec" id="sec">33</span>
 					</div>
 				</div>
-				<span id="span">{{time}}</span>
+				<span id="span" style="display:none;">{{time}}</span>
 				<div class="attempted">
-					<!--<div class="q1 q">Question 1: <span>Not Attempted</span></div>
-					<div class="q2 q">Question 2: <span>Not Attempted</span></div>
-					<div class="q3 q">Question 3: <span>Not Attempted</span></div>
-					<div class="q4 q">Question 4: <span>Not Attempted</span></div>
-					<div class="q5 q">Question 5: <span>Not Attempted</span></div>-->
 
 					<ul class="collapsible">
 					    <li>
@@ -75,14 +70,14 @@
 					</ul>
 
 				</div>
-				<a href="/leaderboard/" class="btn waves-effect waves-light" class="leaderboard">Leaderboard<i class="material-icons right icon-white">assessment</i></a>
+				<a href="/leaderboard/" class="btn waves-effect waves-light" target="_blank" class="leaderboard">Leaderboard<i class="material-icons right icon-white">assessment</i></a>
 				<form method="POST" action="/logout/">
 					{% csrf_token %}
 					<button class="btn waves-effect waves-light amber darken-2" id="logout" type="submit" name="action">LOGOUT<i class="material-icons right icon-white">power_settings_new</i></button>
 				</form>
 				<form method="POST" action="/give_up/">
 					{% csrf_token %}
-					<button class="btn waves-effect waves-light red lighten-1" id="logout" type="submit" name="action">Give Up<i class="material-icons right icon-white">thumb_down</i></button>
+					<button class="btn waves-effect waves-light red lighten-1" id="give_up" type="submit" name="action">Give Up<i class="material-icons right icon-white">thumb_down</i></button>
 				</form>
 				
 
@@ -181,6 +176,24 @@ print(prime(a))
 					</div>
 					<div class="op_box z-depth-2" id="op"></div>
 				</div>
+
+				<div id="accepted" class="z-depth-2" style="display: none;">
+					<p class="accept">Accepted! :) <br></p>
+					<p class="tag">Check the leaderboard to find out your current position.</p>
+				</div>
+				<div id="tle" class="z-depth-2" style="display: none;">
+					<p class="accept">Time Limit Exceeded! :( <br></p>
+					<p class="tag">Improve your algorithm and try again. 5 mins penalty has been added to your total time.</p>
+				</div>
+				<div id="compile" class="z-depth-2" style="display: none;">
+					<p class="accept">Compilation Error! :( <br></p>
+					<p class="tag">Use 'RUN CODE' button to check your syntactical mistakes. 5 mins penalty has been added to your total time.</p>
+				</div>
+				<div id="wrong" class="z-depth-2" style="display: none;">
+					<p class="accept">Wrong Answer! :( <br></p>
+					<p class="tag">Your algorithm failed the hidden test cases. 5 mins penalty has been added.</p>
+					<p class="tag"><b>Hint:</b> Make sure you have covered all the edge cases and your algorithm is inline with the constraints.</p>
+				</div>
 				<br><br><br><br><br><br>
 			</div>
 
@@ -253,6 +266,7 @@ print(prime(a))
 	    	var sec = Math.floor(timeLeft % 3600 % 60);
 			if(timeLeft<=0){
 				clearTimeout(tm);
+				localStorage.removeItem(name);
 				document.getElementById("success-modal").style.display = "block";
 			}
 			else{
@@ -265,8 +279,12 @@ print(prime(a))
 		}
 	</script>
 	<script type="text/javascript">
-		$("#logout").click(function(){
-		    console.log("Logout");
+		$("#finish").click(function(){
+		    localStorage.removeItem(name);
+		});
+
+		$("#give_up").click(function(){
+		    localStorage.removeItem(name);
 		});
 		
 	</script>

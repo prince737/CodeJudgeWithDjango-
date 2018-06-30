@@ -12,6 +12,7 @@ import os, shutil, errno
 from django.http import JsonResponse
 from subprocess import *
 import datetime
+from filecmp import *
 
 
 
@@ -218,8 +219,6 @@ def contest_begin(request):
 				data = data.replace(' ', '&nbsp;');
 				data = data.replace('\n', '<br>');
 
-				print(data)
-
 				context = {
 					'op' : data,
 					'err' : err,
@@ -260,8 +259,91 @@ def contest_begin(request):
 				os.remove("%sop.txt" %dir)
 				os.remove("%sMain.java" %dir)
 				os.remove("%scompile.txt" %dir)
+
+		###'''''''''''Submission begins here''''''''''''###
+
 		elif event == 'submit':
-			return render(request, 'contest/contest.html',)
+			print(qid)
+			dir = "contest/static/questions/question"+str(qid)+"/"
+			ip = open("%sip.txt" %dir, "r")
+
+			userdir = "contest/static/teams/"+str(request.user)+"/"
+
+
+			if mode == 'C / C++':
+				codefilename = str(qid)+'.cpp'
+				codefile = "contest/static/teams/"+str(request.user)+"/"+str(qid)+'.cpp'
+			elif mode == 'Python 3':
+				codefilename = str(qid)+'.py'
+				codefile = "contest/static/teams/"+str(request.user)+"/"+str(qid)+'.py'
+			
+			f = open("%s" %codefile, "w+")
+			f.write(code)
+			f.seek(0)
+
+			#compiling
+			c = open("%scompile.txt" %userdir, "w+")
+			if mode == 'C / C++':
+				codefilename = str(qid)+'.cpp'
+				call("cd '%s'; g++ %s"%(userdir,codefilename), shell=True, stdout=c, stderr=c)
+			elif mode == 'Python 3':
+				codefilename = str(qid)+'.py'
+				call("cd '%s'; python3 -m py_compile %s"%(userdir, codefilename), shell=True, stdout=c, stderr=c)
+
+			#setting output file
+			opfile =  "contest/static/teams/"+str(request.user)+"/"+str(qid)+'.txt'
+			o = open("%s" %opfile, "w+")
+
+			#check if compilation error exists
+			if os.stat("%scompile.txt"%userdir).st_size == 0:	
+				if mode == 'C / C++':
+					call("cd '%s'; timeout 2s ./a.out; echo $?" %userdir, shell=True, stdin=ip, stdout=o, stderr=o)
+				elif mode == 'Python 3':
+					call("cd '%s'; timeout 2s python3 %s; echo $?"%(userdir, codefilename), shell=True, stdin=ip, stdout=o, stderr=o)		
+				
+				o.seek(0)
+				data= o.read().splitlines()
+				data = data[-1]
+				if '124' in data:
+					context = {
+						'op' : 'Time Limit Exceeded!',
+						'err' : '',
+					}
+					os.remove("%scompile.txt" %userdir)
+					os.remove("%s%s.txt" %(userdir,qid))
+					os.remove("%s%s" %(userdir,codefilename))
+					return JsonResponse(context, safe=False)
+			else:
+				op = 'Compilation Error!'
+				context = {
+					'op' : op,
+					'err' : '',
+				}
+				os.remove("%scompile.txt" %userdir)
+				os.remove("%s%s.txt" %(userdir,qid))
+				os.remove("%s%s" %(userdir,codefilename))
+				return JsonResponse(context, safe=False)
+
+			#check if output matches
+			req = open("%sop.txt" %dir, "r")
+			reqOp = req.read().strip()
+
+			o.seek(0)
+			curOp = o.read().strip()
+
+			if(reqOp == curOp):
+				op = 'Accepted!'
+				os.remove("%scompile.txt" %userdir)
+			else:
+				op = 'Wrong Answer!'
+				os.remove("%scompile.txt" %userdir)
+				os.remove("%s%s.txt" %(userdir,qid))
+				os.remove("%s%s" %(userdir,codefilename))
+
+			context = {
+					'op' : op,
+					'err' : '',
+				}
 
 
 		return JsonResponse(context, safe=False)
@@ -276,14 +358,6 @@ def leaderboard(request):
 	return render(request, 'contest/leaderboard.html', context)
 
 def logout(request):
-	'''t = request.POST.get('time')
-	try:
-		time = timeRemaining.objects.get(user=request.user)
-		time.time = t
-		time.save()
-	except timeRemaining.DoesNotExist:
-		a = timeRemaining(user=request.user, time=t)
-		a.save()'''
 	try:
 		 auth_logout(request)
 	except KeyError:

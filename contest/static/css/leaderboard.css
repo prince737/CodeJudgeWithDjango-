@@ -13,30 +13,267 @@ body{
     background-image: linear-gradient(to top, #13547a, #1e7292, #3891a6, #59b1b7, #80d0c7);
 }
 
-.header{
-	color: #fff;
-	padding: 10px 20px;
+
+/*==============HEADER================*/
+
+.icon{
+	margin: 50px 0;
+	position: relative;
+}
+
+.icon .mid{
+	display: block;	
+	height: 150px;
+	width: 180px;
+	margin: 0 auto;
+	margin-bottom: 30px;
+}
+
+.icon .wing{
+	position: absolute;
+	height: 100px;
+	width:140px;
+}
+
+.icon .wing1{
+	left: 53%;
+	top: 26%;
+	transform: rotate(30deg);
+}
+
+.icon .wing2{
+	right: 53%;
+	top: 26%;
+	transform: scaleX(-1) rotate(30deg);
+}
+
+.icon{
 	text-align: center;
 }
 
-.timer{
-	text-align: right;
-	padding: 10px 0;
-	font-size: 16px;
+.icon .lefty{
+	display: inline-block;
+	position: relative;
+	margin-right: 10%;
+}
+
+.lefty img{
+	height: 120px;
+	width: 150px;
+}
+
+.lefty .first span{
+	position: absolute;
+}
+
+.lefty .second span{
+	position: absolute;
+}
+
+.lefty .first span:nth-child(1){
+	width: 100px;
+	border-top: 3px solid #fff;
+	left: -90%;
+	top : 60%;
+}
+
+.lefty .first span:nth-child(2){
+	width: 170px;
+	border-top: 3px solid #fff;
+	right: 110%;
+	top : 75%;
+}
+
+.lefty .first span:nth-child(3){
+	width: 100px;
+	border-top: 3px solid #fff;
+	left: -90%;
+	top :90%;
+}
+
+.lefty .second span:nth-child(1){
+	width: 100px;
+	border-top: 3px solid #fff;
+	right: -90%;
+	top : 60%;
+}
+
+.lefty .second span:nth-child(2){
+	width: 170px;
+	border-top: 3px solid #fff;
+	left: 110%;
+	top : 75%;
+}
+
+.lefty .second span:nth-child(3){
+	width: 100px;
+	border-top: 3px solid #fff;
+	right: -90%;
+	top :90%;
+}
+
+.icon .righty{
+	display: inline-block;
+	position: relative;
+	margin-left: 10%;
+}
+
+.righty img{
+	height: 120px;
+	width: 150px;
+}
+
+.righty .first span{
+	position: absolute;
+}
+
+.righty .second span{
+	position: absolute;
+}
+
+.righty .first span:nth-child(1){
+	width: 100px;
+	border-top: 3px solid #fff;
+	left: -90%;
+	top : 60%;
+}
+
+.righty .first span:nth-child(2){
+	width: 170px;
+	border-top: 3px solid #fff;
+	right: 110%;
+	top : 75%;
+}
+
+.righty .first span:nth-child(3){
+	width: 100px;
+	border-top: 3px solid #fff;
+	left: -90%;
+	top :90%;
+}
+
+.righty .second span:nth-child(1){
+	width: 100px;
+	border-top: 3px solid #fff;
+	right: -90%;
+	top : 60%;
+}
+
+.righty .second span:nth-child(2){
+	width: 170px;
+	border-top: 3px solid #fff;
+	left: 110%;
+	top : 75%;
+}
+
+.righty .second span:nth-child(3){
+	width: 100px;
+	border-top: 3px solid #fff;
+	right: -90%;
+	top :90%;
+}
+
+
+/*============HEADER ENDS=============*/
+
+
+#time{
+	text-align: center;
+	font-size: 18px;
+	color:#fff;
+}
+
+.lead-wrap{
+	margin: 0 10%;
+}
+
+.lead{
+	height: 90px;
+	width: 100%;
+	background-color: #fff;
+	position: relative;
+	padding: 10px 0px;
+	z-index: 999;
+	margin: 30px 0;
+	border-bottom: 4px solid teal;
+	border-radius: 10px;
 }
 
 table{
-	background-color: #fff;
-	box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 2px 0 rgba(0, 0, 0, 0.24);
-	width: 90%;
-	margin: auto;
-}
-
-th{
-	border-bottom: 2px solid #e0e0e0;
-	padding: 30px 0;
+	margin-left: 85px;
 }
 
 tr{
 	border: none!important;
+}
+
+tr td{
+  padding: 10px !important;
+  margin: 0 !important;
+  line-height: 55px;
+}
+
+.lead .rank{
+	position: absolute;
+	background-color: #00bcd4;
+	height: 70px;
+	width: 70px;
+	line-height: 70px;
+	border-radius: 50%;
+	text-align: center;
+	color:#fff;
+	font-weight: bold;
+	font-size: 30px;
+	left: 15px;
+}
+
+.lead .team{
+	color: #212121;
+	font-weight: bold;
+	font-size: 20px;
+	line-height: 40px;
+	width: 15%;
+}
+
+.lead .questions{
+	display: inline-block;
+	position: relative;
+	width: 13%;
+}
+
+.questions .sss{
+	margin-left: 20px;
+}
+
+.questions .sss small{
+	position: absolute;
+	top:-15px;
+	color: #546e7a;
+	font-size: 10px;
+}
+
+.questions .sss strong{
+	color: teal;
+	font-size: 16px;
+}
+
+.questions .sss strong span{
+	color: red;
+	font-size: 13px;
+	margin-left: 10px;
+}
+
+
+.lead .extra{
+	width: 10%;
+}
+
+.lead .marks strong{
+	font-size: 20px;
+	color: #6d4c41;
+}
+
+.lead .time strong{
+	font-size: 20px;
+	color: #6d4c41;
 }

@@ -1,5 +1,5 @@
 <head>
-	<title>Code Judge</title>
+	<title>Leaderboard</title>
 
 	<meta http-equiv="refresh" content="30"/>
 	
@@ -18,126 +18,317 @@
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col s12">
-				<div class="header">
-					<h4>Leaderboard</h4>
+				<div class="icon">
+					<img class="wing wing1" src="{% static 'assets/wing.png' %}">
+					<img class="mid" src="{% static 'assets/trophy.png' %}">
+					<img class="wing wing2" src="{% static 'assets/wing.png' %}">
+
+					<div class="lefty">
+						<div class="first">
+							<span></span>
+							<span></span>
+							<span></span>
+						</div>
+						
+						<img src="{% static 'assets/trophy.png' %}">
+						
+						<div class="second">
+							<span></span>
+							<span></span>
+							<span></span>
+						</div>
+					</div>
+					<div class="righty">
+						<div class="first">
+							<span></span>
+							<span></span>
+							<span></span>
+						</div>
+						<div class="second">
+							<span></span>
+							<span></span>
+							<span></span>
+						</div>
+						<img src="{% static 'assets/trophy.png' %}">
+					</div>
 				</div>
-				<p class="timer">Leaderboard will refresh in <span id="time"></span> seconds...</p>
-				<table class="highlight centered">
-			        <thead>
-			          <tr>
-			              <th>Rank</th>
-			              <th>Team Name</th>
-			              <th>Question 1</th>
-			              <th>Question 2</th>
-			              <th>Question 3</th>
-			              <th>Question 4</th>
-			              <th>Question 5</th>
-			              <th>Total Points</th>
-			              <th>Total Time Taken</th>
-			          </tr>
-			        </thead>
-					<tbody>
-			            <tr>
-			            	<td>1</td>
-			            	<td>Eclair</td>
-			            	<td>$0.87</td>
-			            	<td>$0.87</td>
-			            	<td>$0.87</td>
-			            	<td>$0.87</td>
-			            	<td>$0.87</td>
-			            	<td>$0.87</td>
-			            	<td>$0.87</td>
-			            </tr>
-			            <tr>
-			            	<td>2</td>
-			            	<td>Alan</td>
-			                <td>Jellybean</td>
-			                <td>Jellybean</td>
-			                <td>Jellybean</td>
-			                <td>Jellybean</td>
-			            	<td>$3.76</td>
-			            	<td>$3.76</td>
-			            	<td>$3.76</td>
-			            </tr>
-			            <tr>
-			            	<td>3</td>
-			            	<td>Jonathan</td>
-			            	<td>Jonathan</td>
-			            	<td>Jonathan</td>
-			            	<td>Lollipop</td>
-			            	<td>Lollipop</td>
-			            	<td>Lollipop</td>
-			            	<td>$7.00</td>
-			            	<td>$7.00</td>
-			            </tr>
-			            <tr>
-			            	<td>1</td>
-			            	<td>Eclair</td>
-			            	<td>$0.87</td>
-			            	<td>$0.87</td>
-			            	<td>$0.87</td>
-			            	<td>$0.87</td>
-			            	<td>$0.87</td>
-			            	<td>$0.87</td>
-			            	<td>$0.87</td>
-			            </tr>
-			            <tr>
-			            	<td>2</td>
-			            	<td>Alan</td>
-			                <td>Jellybean</td>
-			                <td>Jellybean</td>
-			                <td>Jellybean</td>
-			                <td>Jellybean</td>
-			            	<td>$3.76</td>
-			            	<td>$3.76</td>
-			            	<td>$3.76</td>
-			            </tr>
-			            <tr>
-			            	<td>3</td>
-			            	<td>Jonathan</td>
-			            	<td>Jonathan</td>
-			            	<td>Jonathan</td>
-			            	<td>Lollipop</td>
-			            	<td>Lollipop</td>
-			            	<td>Lollipop</td>
-			            	<td>$7.00</td>
-			            	<td>$7.00</td>
-			            </tr>
-			            <tr>
-			            	<td>1</td>
-			            	<td>Eclair</td>
-			            	<td>$0.87</td>
-			            	<td>$0.87</td>
-			            	<td>$0.87</td>
-			            	<td>$0.87</td>
-			            	<td>$0.87</td>
-			            	<td>$0.87</td>
-			            	<td>$0.87</td>
-			            </tr>
-			            <tr>
-			            	<td>2</td>
-			            	<td>Alan</td>
-			                <td>Jellybean</td>
-			                <td>Jellybean</td>
-			                <td>Jellybean</td>
-			                <td>Jellybean</td>
-			            	<td>$3.76</td>
-			            	<td>$3.76</td>
-			            	<td>$3.76</td>
-			            </tr>
-			            <tr>
-			            	<td>3</td>
-			            	<td>Jonathan</td>
-			            	<td>Jonathan</td>
-			            	<td>Jonathan</td>
-			            	<td>Lollipop</td>
-			            	<td>Lollipop</td>
-			            	<td>Lollipop</td>
-			            	<td>$7.00</td>
-			            	<td>$7.00</td>
-			            </tr>
-			        </tbody>
-			    </table>
+
+				<p id="time">Leaderboard will refresh in </p>
+				
+				<div class="lead-wrap">
+					<div class="lead ">
+						<span class="rank" style="background-color: #ffbf00;">1</span>
+						<table class="none">
+							<tbody>
+							<tr>
+								<td class="team">Void_main()</td>
+								<td class="questions">
+									<span class="sss">
+										<small>Question 1</small>
+										<strong>25:06<span class="penalty">+5:00</span></strong>
+									</span>
+								</td>
+								<td class="questions">
+									<span class="sss">
+										<small>Question 2</small>
+										<strong>25:06<span class="penalty">+5:00</span></strong>
+									</span>
+								</td>
+								<td class="questions">
+									<span class="sss">
+										<small>Question 3</small>
+										<strong>25:06<span class="penalty">+5:00</span></strong>
+									</span>
+								</td>
+								<td class="questions">
+									<span class="sss">
+										<small>Question 4</small>
+										<strong>25:06<span class="penalty">+5:00</span></strong>
+									</span>
+								</td>
+								<td class="questions">
+									<span class="sss">
+										<small>Question 5</small>
+										<strong>25:06<span class="penalty">+5:00</span></strong>
+									</span>
+								</td>
+								<td class="questions extra">
+									<span class="marks sss">
+										<small>Total Marks</small>
+										<strong>100</strong>
+									</span>
+								</td>
+								<td class="questions extra">
+									<span class="time sss">
+										<small>Total Time Taken</small>
+										<strong>02:20:06</strong>
+									</span>
+								</td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="lead">
+						<span class="rank" style="background-color: #90a4ae;">2</span>
+						<table class="none">
+							<tbody>
+							<tr>
+								<td class="team">nateranamera</td>
+								<td class="questions">
+									<span class="sss">
+										<small>Question 1</small>
+										<strong>01:55:06<span class="penalty">+10:00</span></strong>
+									</span>
+								</td>
+								<td class="questions">
+									<span class="sss">
+										<small>Question 2</small>
+										<strong>01:55:06<span class="penalty">+60:00</span></strong>
+									</span>
+								</td>
+								<td class="questions">
+									<span class="sss">
+										<small>Question 3</small>
+										<strong>01:05:06<span class="penalty">+60:00</span></strong>
+									</span>
+								</td>
+								<td class="questions">
+									<span class="sss">
+										<small>Question 4</small>
+										<strong>01:25:06<span class="penalty">+60:00</span></strong>
+									</span>
+								</td>
+								<td class="questions">
+									<span class="sss">
+										<small>Question 5</small>
+										<strong>01:55:06<span class="penalty">+60:00</span></strong>
+									</span>
+								</td>
+								<td class="questions extra">
+									<span class="marks sss">
+										<small>Total Marks</small>
+										<strong>100</strong>
+									</span>
+								</td>
+								<td class="questions extra">
+									<span class="time sss">
+										<small>Total Time Taken</small>
+										<strong>02:21:06</strong>
+									</span>
+								</td>
+							</tr>
+							</tbody>
+						</table>
+
+					</div>
+					<div class="lead">
+						<span class="rank" style="background-color: #f57c00;">3</span>
+						<table class="none">
+							<tbody>
+							<tr>
+								<td class="team">foreversingle</td>
+								<td class="questions">
+									<span class="sss">
+										<small>Question 1</small>
+										<strong>01:55:06<span class="penalty">+10:00</span></strong>
+									</span>
+								</td>
+								<td class="questions">
+									<span class="sss">
+										<small>Question 2</small>
+										<strong>01:55:06<span class="penalty">+60:00</span></strong>
+									</span>
+								</td>
+								<td class="questions">
+									<span class="sss">
+										<small>Question 3</small>
+										<strong>01:05:06<span class="penalty">+60:00</span></strong>
+									</span>
+								</td>
+								<td class="questions">
+									<span class="sss">
+										<small>Question 4</small>
+										<strong><span class="penalty">N/A</span></strong>
+									</span>
+								</td>
+								<td class="questions">
+									<span class="sss">
+										<small>Question 5</small>
+										<strong>01:55:06<span class="penalty">+60:00</span></strong>
+									</span>
+								</td>
+								<td class="questions extra">
+									<span class="marks sss">
+										<small>Total Marks</small>
+										<strong>80</strong>
+									</span>
+								</td>
+								<td class="questions extra">
+									<span class="time sss">
+										<small>Total Time Taken</small>
+										<strong>01:30:06</strong>
+									</span>
+								</td>
+							</tr>
+							</tbody>
+						</table>
+
+
+					</div>
+
+					<div class="lead">
+						<span class="rank">4</span>
+						<table class="none">
+							<tbody>
+							<tr>
+								<td class="team">link_list_not_aadhar</td>
+								<td class="questions">
+									<span class="sss">
+										<small>Question 1</small>
+										<strong>05:06<span class="penalty"></span></strong>
+									</span>
+								</td>
+								<td class="questions">
+									<span class="sss">
+										<small>Question 2</small>
+										<strong>55:06<span class="penalty"></span></strong>
+									</span>
+								</td>
+								<td class="questions">
+									<span class="sss">
+										<small>Question 3</small>
+										<strong>01:05:06<span class="penalty">+5:00</span></strong>
+									</span>
+								</td>
+								<td class="questions">
+									<span class="sss">
+										<small>Question 4</small>
+										<strong>01:25:06<span class="penalty">+10:00</span></strong>
+									</span>
+								</td>
+								<td class="questions">
+									<span class="sss">
+										<small>Question 5</small>
+										<strong><span class="penalty">N/A</span></strong>
+									</span>
+								</td>
+								<td class="questions extra">
+									<span class="marks sss">
+										<small>Total Marks</small>
+										<strong>80</strong>
+									</span>
+								</td>
+								<td class="questions extra">
+									<span class="time sss">
+										<small>Total Time Taken</small>
+										<strong>01:40:06</strong>
+									</span>
+								</td>
+							</tr>
+							</tbody>
+						</table>
+
+
+					</div>
+
+					<div class="lead">
+						<span class="rank">5</span>
+						<table class="none">
+							<tbody>
+							<tr>
+								<td class="team">North_Wind</td>
+								<td class="questions">
+									<span class="sss">
+										<small>Question 1</small>
+										<strong>15:06<span class="penalty">+10:00</span></strong>
+									</span>
+								</td>
+								<td class="questions">
+									<span class="sss">
+										<small>Question 2</small>
+										<strong>45:06<span class="penalty"></span></strong>
+									</span>
+								</td>
+								<td class="questions">
+									<span class="sss">
+										<small>Question 3</small>
+										<strong>01:05:06<span class="penalty"></span></strong>
+									</span>
+								</td>
+								<td class="questions">
+									<span class="sss">
+										<small>Question 4</small>
+										<strong><span class="penalty">N/A</span></strong>
+									</span>
+								</td>
+								<td class="questions">
+									<span class="sss">
+										<small>Question 5</small>
+										<strong><span class="penalty">N/A</span></strong>
+									</span>
+								</td>
+								<td class="questions extra">
+									<span class="marks sss">
+										<small>Total Marks</small>
+										<strong>60</strong>
+									</span>
+								</td>
+								<td class="questions extra">
+									<span class="time sss">
+										<small>Total Time Taken</small>
+										<strong>01:15:06</strong>
+									</span>
+								</td>
+							</tr>
+							</tbody>
+						</table>
+
+
+					</div>
+
+
+					
+				</div>
 			</div>
 		</div>
 	</div>
@@ -155,7 +346,7 @@
 				clearTimeout(tm);
 			}
 			else{
-				document.getElementById("time").innerHTML = timeLeft<10?"0"+timeLeft:timeLeft;
+				document.getElementById("time").innerHTML = timeLeft<10?"Leaderboard will refresh in 0"+timeLeft+" seconds...":"Leaderboard will refresh in "+timeLeft+" seconds...";
 			}
 			timeLeft--;
 			var tm = setTimeout(function(){ timer() }, 1000);

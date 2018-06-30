@@ -303,12 +303,12 @@ textarea{
 .checkbox{
 	display: inline-block;
 	margin-top: 20px;
-	margin-left: 30px;
+	margin-left: 2.5%;
 }
 
 .actions{
 	float: right;
-	margin-right: 30px;
+	margin-right: 2.5%;
 	margin-top: 15px;
 }
 
@@ -317,7 +317,7 @@ textarea{
 }
 
 .custom-input-wrap #custom-input{
-	margin-left: 30px;
+	margin-left: 2.5%;
 	height: 100px;
 	width:350px;
 	background: #e7eeef;
@@ -456,6 +456,44 @@ textarea{
 
 }
 
+/*submission message*/
+#accepted{
+	background-color: #c8e6c9;
+	padding: 20px 30px;
+	margin: 2.5%;
+	text-align: center;
+}
+
+#accepted .accept{
+	font-size: 25px;
+	letter-spacing: 0.7px;
+	font-weight: bold;
+	color: #43a047;
+}
+
+#accepted .tag{
+	font-size: 18px;
+	color: #43a047;
+}
+
+#tle, #compile, #wrong{
+	background-color: #ffcdd2;
+	padding: 20px 30px;
+	margin: 2.5%;
+	text-align: center;
+}
+
+ #tle .tag, #compile .tag, #wrong .tag, #wrong b{
+ 	color: #f50057;
+ 	font-size: 18px;
+ }
+
+#tle .accept, #compile .accept,  #wrong .accept{
+	font-size: 25px;
+	letter-spacing: 0.7px;
+	font-weight: bold;
+	color: #f50057;
+}
 
 /*Timeout modal*/
 #success-modal {

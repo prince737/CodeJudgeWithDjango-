@@ -17,23 +17,33 @@ function changeMode(){
 
 /*--------GETTING QUESTION ID--------*/
 
-var val = $("#qid1").html();
-$("#hqid").val(val);
+var val = 1;
 
 $("#q1").click(function(){
-	var val = $("#qid1").html()
-	$("#hqid").val(val);
+	alert("1")
+	val = 1;
 });
 
 $("#q2").click(function(){
-	var val = $("#qid2").html()
-	$("#hqid").val(val);
+	alert("2")
+	val = 2;
 });
 
 $("#q3").click(function(){
-	var val = $("#qid3").html()
-	$("#hqid").val(val);
+	alert("3")
+	val = 3;
 });
+
+$("#q4").click(function(){
+	alert("4")
+	val = 4;
+});
+
+$("#q5").click(function(){
+	alert("5")
+	val = 5;
+});
+
 
 
 /*Submission of code*/
@@ -46,7 +56,7 @@ $('#codeform').on('submit', function(e){
 	var code = $('#code').val();
 	var ciw = $('#custom-input').val();
 	var mode = $("#mode :selected").text();
-	var qid = $("#hqid").val();
+	var qid = val;
 	var url = "/contest/begin/";
 
 	if(code.trim()==""){
@@ -72,11 +82,40 @@ $('#codeform').on('submit', function(e){
 		success: function(context){
 			$("#load").hide();
 			var a;
-			if(context.op==null){
-				$("#op").html("Submission is broken!");
-				$("#output").show();
-				$("#err").hide();
-				$("#succ").hide();
+			console.log(context.op);
+			if(event == 'submit'){
+				if(context.op == 'Accepted!'){
+					$("#err").hide();
+					$("#succ").hide();
+					$("#wrong").hide();
+					$("#compile").hide();
+					$("#tle").hide();
+					$("accepted").show()
+				}
+				else if(context.op == 'Wrong Answer!'){
+					$("#err").hide();
+					$("#succ").hide();
+					$("#wrong").show();
+					$("#compile").hide();
+					$("#tle").hide();
+					$("accepted").hide()
+				}
+				else if(context.op == 'Time Limit Exceeded!'){
+					$("#err").hide();
+					$("#succ").hide();
+					$("#wrong").hide();
+					$("#compile").hide();
+					$("#tle").show();
+					$("accepted").hide()
+				}
+				else if(context.op == 'Compilation Error!'){
+					$("#err").hide();
+					$("#succ").hide();
+					$("#wrong").hide();
+					$("#compile").show();
+					$("#tle").hide();
+					$("accepted").hide()
+				}
 			}
 			else{
 				if(context.err === ""){
