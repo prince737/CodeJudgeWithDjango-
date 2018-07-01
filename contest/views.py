@@ -148,153 +148,128 @@ def contest_begin(request):
 			ip.seek(0)
 
 		if event == "run":
-			if mode =='Python 3': 
-				f = open("%scode.py" %dir, "w")
-				f.write(code)
 
-				#compile
-				f = open("%sop.txt" %dir, "w+")
-
-				#check if custom input is supplied and run accordingly
-				if os.path.isfile("%sip.txt" %dir):
-					print("here")
-					call("cd '%s'; python3 code.py"%dir, shell=True, stdin=ip, stdout=f, stderr=f)
-					os.remove("%sip.txt" %dir)
-				else:
-					call("cd '%s'; python3 code.py"%dir, shell=True, stdout=f, stderr=f)					
-
-				#copy file contents to local variable
-				f.seek(0)
-				data=f.read()
-
-				#format output
-				data = data.replace('	', '&nbsp;&nbsp;&nbsp;&nbsp;');
-				data = data.replace(' ', '&nbsp;');
-				data = data.replace('\n', '<br>');
-
-				#check if compilation error exixts
-				if data.find('code.py') != -1:
-					err = 'Compilation Error'
-
-				#create context
-				context = {
-					'op' : data,
-					'err' : err,
-				}				
-
-				#remove all temporary files
-				os.remove("%sop.txt" %dir)
-				os.remove("%scode.py" %dir)
-				
+			#writing code to file
+			if mode == 'Python 3':
+				f = open("%scode.py" %dir, "w+")
 			elif mode == 'C / C++':
-				#writing code to file
 				f = open("%scode.cpp" %dir, "w+")
-				f.write(code)
-				f.seek(0)
-
-				#opening file for compilation output
-				c = open("%scompile.txt" %dir, "w+")
-				call("cd '%s'; g++ code.cpp"%dir, shell=True, stdout=c, stderr=c)				
-
-				#output file
-				o = open("%sop.txt" %dir, "w+")
-
-				#check if compilation error exists
-				if os.stat("%scompile.txt" %dir).st_size == 0:
-
-					#check if custom input is supplied
-					if os.path.isfile("%sip.txt" %dir):
-						call("cd '%s'; timeout 2s ./a.out; echo $?" %dir, shell=True, stdin=ip, stdout=o, stderr=o)
-						os.remove("%sip.txt" %dir)
-						o.seek(0)
-						data= o.read().splitlines()
-						data = data[-1]
-						if '124' in data:
-							context = {
-								'op' : '<b>Your code took way too much time. Try improving your algorithm or check for infinite loops.</b>',
-								'err' : 'Time Limit Exceeded!',
-							}
-
-							#remvoing temp files and returning context	
-							os.remove("%sop.txt" %dir)
-							os.remove("%scode.cpp" %dir)
-							os.remove("%scompile.txt" %dir)
-							return JsonResponse(context, safe=False)
-
-					else: 
-						call("cd '%s'; timeout 2s ./a.out; echo $?" %dir, shell=True, stdout=o, stderr=o)
-						o.seek(0)
-						data= o.read().splitlines()
-						data = data[-1]
-						if '124' in data:
-							context = {
-								'op' : '<b>Your code took way too much time. Try improving your algorithm or check for infinite loops.</b>',
-								'err' : 'Time Limit Exceeded!',
-							}
-
-							#remvoing temp files and returning context
-							os.remove("%sop.txt" %dir)
-							os.remove("%scode.cpp" %dir)
-							os.remove("%scompile.txt" %dir)
-							os.remove("%sa.out" %dir)
-							return JsonResponse(context, safe=False)
-
-					o.seek(0)
-					data=o.read().strip()
-					data=data[:-1]
-				else:
-					c.seek(0)
-					data=c.read() #reading compilation error
-					err = 'Compilation Error'
-
-				#format output
-				data = data.replace('	', '&nbsp;&nbsp;&nbsp;&nbsp;');
-				data = data.replace(' ', '&nbsp;');
-				data = data.replace('\n', '<br>');
-
-				#preparing context
-				context = {
-					'op' : data,
-					'err' : err,
-				}
-				
-				#removing temp files
-				os.remove("%sop.txt" %dir)
-				os.remove("%scode.cpp" %dir)
-				os.remove("%scompile.txt" %dir)
-				os.remove("%sa.out" %dir)
-
 			elif mode == 'Java 8':
 				f = open("%sMain.java" %dir, "w+")
-				
-				f.write(code)
-				f.seek(0)
 
-				c = open("%scompile.txt" %dir, "w+")
+			f.write(code)
+			f.seek(0)
+
+			#opening file for compilation output
+			c = open("%scompile.txt" %dir, "w+")
+
+			if mode == 'Python 3':
+				call("cd '%s'; python3 -m py_compile code.py"%dir, shell=True, stdout=c, stderr=c)
+			elif mode == 'C / C++':
+				call("cd '%s'; g++ code.cpp"%dir, shell=True, stdout=c, stderr=c)
+			elif mode == 'Java 8':
 				call("cd '%s'; javac Main.java"%dir, shell=True, stdout=c, stderr=c)
+							
 
-				o = open("%sop.txt" %dir, "w+")
-				if os.stat("%scompile.txt" %dir).st_size == 0:
-					call("cd '%s'; java Main" %dir, shell=True, stdout=o, stderr=o)
+			#output file
+			o = open("%sop.txt" %dir, "w+")
+
+			#check if compilation error exists
+			if os.stat("%scompile.txt" %dir).st_size == 0:
+
+				#check if custom input is supplied
+				if os.path.isfile("%sip.txt" %dir):
+					if mode == 'Python 3':
+						call("cd '%s'; timeout 2s python3 code.py; echo $?" %dir, shell=True, stdin=ip, stdout=o, stderr=o)
+					elif mode == 'C / C++':
+						call("cd '%s'; timeout 2s ./a.out; echo $?" %dir, shell=True, stdin=ip, stdout=o, stderr=o)
+					elif mode == 'Java 8':
+						call("cd '%s'; timeout 2s java Main; echo $?" %dir, shell=True, stdin=ip, stdout=o, stderr=o)
+					
+					os.remove("%sip.txt" %dir)
 					o.seek(0)
-					data=o.read()
-				else:
-					c.seek(0)
-					data=c.read()
-					err = 'Compilation Error'
+					data= o.read().splitlines()
+					data = data[-1]
+					if '124' in data[-3:]:
+						context = {
+							'op' : '<b>Your code took way too much time. Check for infinite loops or if proper input is supplied or try improving your algorithm.</b>',
+							'err' : 'Time Limit Exceeded!',
+						}
 
-				data = data.replace('	', '&nbsp;&nbsp;&nbsp;&nbsp;');
-				data = data.replace(' ', '&nbsp;');
-				data = data.replace('\n', '<br>');
+						#remvoing temp files and returning context		
+						if mode == 'Python 3':
+							os.remove("%scode.py" %dir)
+						elif mode == 'C / C++':
+							a=8
+							#os.remove("%scode.cpp" %dir)
+							#os.remove("%sa.out" %dir)
+						elif mode == 'Java 8':
+							os.remove("%sMain.java" %dir)
+						#os.remove("%sop.txt" %dir)
+						#os.remove("%scompile.txt" %dir)
+						return JsonResponse(context, safe=False)
 
-				context = {
-					'op' : data,
-					'err' : err,
-				}
+				else: 
+					if mode == 'Python 3':
+						call("cd '%s'; timeout 10s python3 code.py; echo $?" %dir, shell=True, stdout=o, stderr=o)
+					elif mode == 'C / C++':
+						call("cd '%s'; timeout 2s ./a.out; echo $?" %dir, shell=True, stdout=o, stderr=o)
+					elif mode == 'Java 8':
+						call("cd '%s'; timeout 2s java Main; echo $?" %dir, shell=True, stdout=o, stderr=o)
+					o.seek(0)
+					data= o.read().splitlines()
+					data = data[-1]
+					if '124' in data[-3:]:
+						context = {
+							'op' : '<b>Your code took way too much time. Check for infinite loops or if proper input is supplied or try improving your algorithm.</b>',
+							'err' : 'Time Limit Exceeded!',
+						}
+
+						#remvoing temp files and returning context						
+						if mode == 'Python 3':
+							os.remove("%scode.py" %dir)
+						elif mode == 'C / C++':
+							a=8
+							os.remove("%scode.cpp" %dir)
+							os.remove("%sa.out" %dir)
+						elif mode == 'Java 8':
+							os.remove("%sMain.java" %dir)
+						os.remove("%scompile.txt" %dir)
+						os.remove("%sop.txt" %dir)
+						return JsonResponse(context, safe=False)
+
+				o.seek(0)
+				data=o.read().strip()
+				data=data[:-1]
+			else:
+				c.seek(0)
+				data=c.read() #reading compilation error
+				err = 'Compilation Error'
+
+				#format output
+			data = data.replace('	', '&nbsp;&nbsp;&nbsp;&nbsp;');
+			data = data.replace(' ', '&nbsp;');
+			data = data.replace('\n', '<br>');
+
+			#preparing context
+			context = {
+				'op' : data,
+				'err' : err,
+			}
 				
-				os.remove("%sop.txt" %dir)
+			#removing temp files
+			
+			if mode == 'Python 3':
+				os.remove("%scode.py" %dir)
+			elif mode == 'C / C++':
+				os.remove("%scode.cpp" %dir)
+				if err != 'Compilation Error':
+					os.remove("%sa.out" %dir)
+			elif mode == 'Java 8':
 				os.remove("%sMain.java" %dir)
-				os.remove("%scompile.txt" %dir)
+			os.remove("%sop.txt" %dir)
+			os.remove("%scompile.txt" %dir)
+
 
 		###'''''''''''Submission begins here''''''''''''###
 
@@ -312,19 +287,27 @@ def contest_begin(request):
 			elif mode == 'Python 3':
 				codefilename = str(qid)+'.py'
 				codefile = "contest/static/teams/"+str(request.user)+"/"+str(qid)+'.py'
+			elif mode == 'Java 8':
+				codefilename = 'Main.java'
+				storefilename = str(qid)+'.java'
+				codefile = "contest/static/teams/"+str(request.user)+"/Main.java"
+
 			
 			f = open("%s" %codefile, "w+")
+			if mode == 'Java 8':
+				s = open("%s%s" %(userdir,storefilename), "w+")
+				s.write(code)
 			f.write(code)
 			f.seek(0)
 
 			#compiling
 			c = open("%scompile.txt" %userdir, "w+")
 			if mode == 'C / C++':
-				codefilename = str(qid)+'.cpp'
 				call("cd '%s'; g++ %s"%(userdir,codefilename), shell=True, stdout=c, stderr=c)
 			elif mode == 'Python 3':
-				codefilename = str(qid)+'.py'
 				call("cd '%s'; python3 -m py_compile %s"%(userdir, codefilename), shell=True, stdout=c, stderr=c)
+			elif mode == 'Java 8':
+				call("cd '%s'; javac Main.java"%userdir, shell=True, stdout=c, stderr=c)
 
 			#setting output file
 			opfile =  "contest/static/teams/"+str(request.user)+"/"+str(qid)+'.txt'
@@ -335,12 +318,14 @@ def contest_begin(request):
 				if mode == 'C / C++':
 					call("cd '%s'; timeout 2s ./a.out; echo $?" %userdir, shell=True, stdin=ip, stdout=o, stderr=o)
 				elif mode == 'Python 3':
-					call("cd '%s'; timeout 2s python3 %s; echo $?"%(userdir, codefilename), shell=True, stdin=ip, stdout=o, stderr=o)		
+					call("cd '%s'; timeout 2s python3 %s; echo $?"%(userdir, codefilename), shell=True, stdin=ip, stdout=o, stderr=o)
+				elif mode == 'Java 8':
+					call("cd '%s'; timeout 2s java Main; echo $?" %userdir, shell=True, stdin=ip, stdout=o, stderr=o)		
 				
 				o.seek(0)
 				data= o.read().splitlines()
 				data = data[-1]
-				if '124' in data:
+				if '124' in data[-3:]:
 					context = {
 						'op' : 'Time Limit Exceeded!',
 						'err' : '',
@@ -348,6 +333,11 @@ def contest_begin(request):
 					os.remove("%scompile.txt" %userdir)
 					os.remove("%s%s.txt" %(userdir,qid))
 					os.remove("%s%s" %(userdir,codefilename))
+					if mode == 'Java 8':
+						os.remove("%sMain.class" %userdir)
+						os.remove("%s%s" %(userdir,storefilename))
+					elif mode == 'C / C++':
+						os.remove("%sa.out" %userdir)
 					return JsonResponse(context, safe=False)
 			else:
 				op = 'Compilation Error!'
@@ -358,6 +348,9 @@ def contest_begin(request):
 				os.remove("%scompile.txt" %userdir)
 				os.remove("%s%s.txt" %(userdir,qid))
 				os.remove("%s%s" %(userdir,codefilename))
+				if mode == 'Java 8':
+					os.remove("%sMain.class" %userdir)
+					os.remove("%s%s" %(userdir,storefilename))
 				return JsonResponse(context, safe=False)
 
 			#check if output matches
@@ -369,12 +362,32 @@ def contest_begin(request):
 
 			if(reqOp == curOp):
 				op = 'Accepted!'
+
+
+				
+
+
+
+
+
+
+				
 				os.remove("%scompile.txt" %userdir)
+				if mode == 'Java 8':
+					os.remove("%sMain.class" %userdir)
+					os.remove("%sMain.java" %userdir)
+				elif mode == 'C / C++':
+					os.remove("%sa.out" %userdir)
 			else:
 				op = 'Wrong Answer!'
 				os.remove("%scompile.txt" %userdir)
 				os.remove("%s%s.txt" %(userdir,qid))
 				os.remove("%s%s" %(userdir,codefilename))
+				if mode == 'Java 8':
+					os.remove("%sMain.class" %userdir)
+					os.remove("%s%s" %(userdir,storefilename))
+				elif mode == 'C / C++':
+					os.remove("%sa.out" %userdir)
 
 			context = {
 					'op' : op,

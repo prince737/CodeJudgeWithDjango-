@@ -36,14 +36,15 @@
 				<div class="timer">
 					<p class="small">TIME</p> <p class="big">REMAINING</p>
 					<div class="time z-depth-2">
-						<span class="hour" id="hour">01</span>
+						<span class="hour" id="hour">00</span>
 						<span class="colon">:</span>
-						<span class="min" id="min">49</span>
+						<span class="min" id="min">00</span>
 						<span class="colon">:</span>
-						<span class="sec" id="sec">33</span>
+						<span class="sec" id="sec">00</span>
 					</div>
 				</div>
 				<span id="span" style="display:none;">{{time}}</span>
+				<span id="timestamp" ></span>
 				<div class="attempted">
 
 					<ul class="collapsible">
@@ -253,7 +254,6 @@ int main(){
 
 
 		var start = localStorage.getItem(name);	
-		console.log(start);
 
 		function timer()
 		{ 
@@ -261,6 +261,20 @@ int main(){
 			var hour = Math.floor(timeLeft / 3600);
 	    	var min = Math.floor(timeLeft % 3600 / 60);
 	    	var sec = Math.floor(timeLeft % 3600 % 60);
+
+
+	    	var timestamp = (((Date.now() - start) / 1000) | 0);
+			var h = Math.floor(timestamp / 3600);
+	    	var m = Math.floor(timestamp % 3600 / 60);
+	    	var s = Math.floor(timestamp % 3600 % 60);
+
+	    	m = m<10?"0"+m:m;
+	    	s = s<10?"0"+s:s;
+
+	    	document.getElementById("timestamp").innerHTML = '0'+h+':'+m+':'+s;
+
+
+
 			if(timeLeft<=0){
 				clearTimeout(tm);
 				localStorage.removeItem(name);

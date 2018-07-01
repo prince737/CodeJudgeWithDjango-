@@ -48,11 +48,14 @@ $('#codeform').on('submit', function(e){
 	
 	$("#output").hide();
 
+	var time= $('#timestamp').html();
+	var date = new Date(time);
 	var code = $('#code').val();
 	var ciw = $('#custom-input').val();
 	var mode = $("#mode :selected").text();
 	var qid = val;
 	var url = "/contest/begin/";
+
 
 	if(code.trim()==""){
 		M.toast({html: 'Atleast print "hello world!"',classes: 'rounded custom'});
@@ -77,7 +80,6 @@ $('#codeform').on('submit', function(e){
 		success: function(context){
 			$("#load").hide();
 			var a;
-			console.log(context.op);
 			if(event == 'submit'){
 				if(context.op == 'Accepted!'){
 					$("#err").hide();
@@ -116,13 +118,19 @@ $('#codeform').on('submit', function(e){
 				if(context.err === ""){
 					$("#succ").show();
 					$("#err").hide();
+					$("#wrong").hide();
+					$("#compile").hide();
+					$("#tle").hide();
+					$("#accepted").hide();
 				}
 				else{
 					$("#err").show();
 					$("#succ").hide();
+					$("#wrong").hide();
+					$("#compile").hide();
+					$("#tle").hide();
+					$("#accepted").hide();
 				}
-
-				console.log(context.op);
 					
 				$("#output").show();
 				$("#op").html(context.op);

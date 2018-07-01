@@ -22,6 +22,18 @@ class timeRemaining(models.Model):
 	time = models.IntegerField()
 	completion = models.BooleanField(default=False)
 
+class submission(models.Model):
+	user = models.OneToOneField(User, primary_key=True, on_delete=models.CASCADE)
+	question1 = models.CharField(max_length=50)
+	question2 = models.CharField(max_length=50)
+	question3 = models.CharField(max_length=50)
+	question4 = models.CharField(max_length=50)
+	question5 = models.CharField(max_length=50)
+	penalty = models.IntegerField()
+	marks = models.IntegerField(default=0)
+	time = models.IntegerField(default=0)
+
+
 
 @receiver(post_save, sender=question)
 def question_inserted(sender, instance, created, **kwargs):
