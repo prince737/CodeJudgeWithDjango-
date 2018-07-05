@@ -5,7 +5,7 @@ from django.contrib.auth.models import Permission, User
 from django.contrib.auth import login as auth_login,logout as auth_logout,authenticate
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
-from .models import question, timeRemaining
+from .models import question, timeRemaining, submission
 from .static.functions import *
 from django.db import IntegrityError
 import os, shutil, errno
@@ -135,6 +135,7 @@ def contest_begin(request):
 		qid = request.POST.get('qid')
 		ciw = request.POST.get('ciw')
 		event = request.POST.get('event')
+		time = request.POST.get('time')
 
 		
 		#directory path of teams
@@ -201,12 +202,12 @@ def contest_begin(request):
 							os.remove("%scode.py" %dir)
 						elif mode == 'C / C++':
 							a=8
-							#os.remove("%scode.cpp" %dir)
-							#os.remove("%sa.out" %dir)
+							os.remove("%scode.cpp" %dir)
+							os.remove("%sa.out" %dir)
 						elif mode == 'Java 8':
 							os.remove("%sMain.java" %dir)
-						#os.remove("%sop.txt" %dir)
-						#os.remove("%scompile.txt" %dir)
+						os.remove("%sop.txt" %dir)
+						os.remove("%scompile.txt" %dir)
 						return JsonResponse(context, safe=False)
 
 				else: 
@@ -274,7 +275,6 @@ def contest_begin(request):
 		###'''''''''''Submission begins here''''''''''''###
 
 		elif event == 'submit':
-			print(qid)
 			dir = "contest/static/questions/question"+str(qid)+"/"
 			ip = open("%sip.txt" %dir, "r")
 
@@ -330,6 +330,7 @@ def contest_begin(request):
 						'op' : 'Time Limit Exceeded!',
 						'err' : '',
 					}
+					setTime(request.user)
 					os.remove("%scompile.txt" %userdir)
 					os.remove("%s%s.txt" %(userdir,qid))
 					os.remove("%s%s" %(userdir,codefilename))
@@ -345,6 +346,8 @@ def contest_begin(request):
 					'op' : op,
 					'err' : '',
 				}
+				
+				setTime(request.user)
 				os.remove("%scompile.txt" %userdir)
 				os.remove("%s%s.txt" %(userdir,qid))
 				os.remove("%s%s" %(userdir,codefilename))
@@ -363,15 +366,41 @@ def contest_begin(request):
 			if(reqOp == curOp):
 				op = 'Accepted!'
 
+				#updating submission model ***work on total time***
+				try:
+					submit = submission.objects.get(user=request.user)
+					if qid=='1':
+						submit.marks = submit.marks if submit.question1 else submit.marks+20
+						submit.question1 = time
+					elif qid=='2':
+						submit.marks = submit.marks if submit.question2 else submit.marks+20
+						submit.question2 = time
+					elif qid=='3':
+						submit.marks = submit.marks if submit.question3 else submit.marks+20
+						submit.question3 = time
+					elif qid=='4':
+						submit.marks = submit.marks if submit.question4 else submit.marks+20
+						submit.question4 = time
+					else:
+						submit.marks = submit.marks if submit.question5 else submit.marks+20
+						submit.question5 = time
+					submit.time = getTime(submit, time)
+					submit.save()
 
-				
+				except submission.DoesNotExist:
+					if qid=='1':
+						submit_instance = submission.objects.create(user=request.user, question1=time, marks=20, time=time)
+					elif qid=='2':
+						submit_instance = submission.objects.create(user=request.user, question2=time, marks=20, time=time)
+					elif qid=='3':
+						submit_instance = submission.objects.create(user=request.user, question3=time, marks=20, time=time)
+					elif qid=='4':
+						submit_instance = submission.objects.create(user=request.user, question4=time, marks=20, time=time)
+					else:
+						submit_instance = submission.objects.create(user=request.user, question5=time, marks=20, time=time)	
+					submit_instance.save()
 
 
-
-
-
-
-				
 				os.remove("%scompile.txt" %userdir)
 				if mode == 'Java 8':
 					os.remove("%sMain.class" %userdir)
@@ -380,6 +409,7 @@ def contest_begin(request):
 					os.remove("%sa.out" %userdir)
 			else:
 				op = 'Wrong Answer!'
+				setTime(request.user)
 				os.remove("%scompile.txt" %userdir)
 				os.remove("%s%s.txt" %(userdir,qid))
 				os.remove("%s%s" %(userdir,codefilename))
@@ -402,8 +432,11 @@ def rules(request):
 	return render(request, 'contest/rules.html',)
 
 def leaderboard(request):
-	context = {}
-	context['user'] = request.user
+	leaders = submission.objects.order_by('-marks', 'time')
+	context = {
+		'leaders' : leaders,
+		'user' : request.user,
+	}
 	return render(request, 'contest/leaderboard.html', context)
 
 def logout(request):

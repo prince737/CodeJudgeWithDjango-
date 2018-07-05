@@ -49,7 +49,6 @@ $('#codeform').on('submit', function(e){
 	$("#output").hide();
 
 	var time= $('#timestamp').html();
-	var date = new Date(time);
 	var code = $('#code').val();
 	var ciw = $('#custom-input').val();
 	var mode = $("#mode :selected").text();
@@ -74,6 +73,7 @@ $('#codeform').on('submit', function(e){
 			mode: mode,
 			qid: qid,
 			ciw: ciw,
+			time: time,
 			event: event,
 			csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
 		},

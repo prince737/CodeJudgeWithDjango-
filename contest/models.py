@@ -24,14 +24,14 @@ class timeRemaining(models.Model):
 
 class submission(models.Model):
 	user = models.OneToOneField(User, primary_key=True, on_delete=models.CASCADE)
-	question1 = models.CharField(max_length=50)
-	question2 = models.CharField(max_length=50)
-	question3 = models.CharField(max_length=50)
-	question4 = models.CharField(max_length=50)
-	question5 = models.CharField(max_length=50)
-	penalty = models.IntegerField()
+	question1 = models.CharField(max_length=50, null=True)
+	question2 = models.CharField(max_length=50, null=True)
+	question3 = models.CharField(max_length=50, null=True)
+	question4 = models.CharField(max_length=50, null=True)
+	question5 = models.CharField(max_length=50, null=True)
+	penalty = models.IntegerField(null=True, default=0)
 	marks = models.IntegerField(default=0)
-	time = models.IntegerField(default=0)
+	time = models.CharField(max_length=20, default=0)
 
 
 

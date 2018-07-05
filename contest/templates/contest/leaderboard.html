@@ -56,59 +56,75 @@
 				<p id="time">Leaderboard will refresh in </p>
 				
 				<div class="lead-wrap">
-					<div class="lead ">
-						<span class="rank" style="background-color: #ffbf00;">1</span>
-						<table class="none">
-							<tbody>
-							<tr>
-								<td class="team">Void_main()</td>
-								<td class="questions">
-									<span class="sss">
-										<small>Question 1</small>
-										<strong>25:06<span class="penalty">+5:00</span></strong>
-									</span>
-								</td>
-								<td class="questions">
-									<span class="sss">
-										<small>Question 2</small>
-										<strong>25:06<span class="penalty">+5:00</span></strong>
-									</span>
-								</td>
-								<td class="questions">
-									<span class="sss">
-										<small>Question 3</small>
-										<strong>25:06<span class="penalty">+5:00</span></strong>
-									</span>
-								</td>
-								<td class="questions">
-									<span class="sss">
-										<small>Question 4</small>
-										<strong>25:06<span class="penalty">+5:00</span></strong>
-									</span>
-								</td>
-								<td class="questions">
-									<span class="sss">
-										<small>Question 5</small>
-										<strong>25:06<span class="penalty">+5:00</span></strong>
-									</span>
-								</td>
-								<td class="questions extra">
-									<span class="marks sss">
-										<small>Total Marks</small>
-										<strong>100</strong>
-									</span>
-								</td>
-								<td class="questions extra">
-									<span class="time sss">
-										<small>Total Time Taken</small>
-										<strong>02:20:06</strong>
-									</span>
-								</td>
-							</tr>
-							</tbody>
-						</table>
-					</div>
-					<div class="lead">
+
+					{% for l in leaders %}
+
+						<div class="lead ">
+							<span class="rank" {% if forloop.counter == 1 %} style="background-color: #ffbf00;" {% elif forloop.counter == 2 %} style="background-color: #90a4ae;" {% elif forloop.counter == 3 %} style="background-color: #f57c00;" {% else %} style="background-color: #00bcd4;" {% endif %} >{{ forloop.counter }}</span>
+							<table class="none">
+								<tbody>
+								<tr>
+									<td class="team">{{l.user}}</td>
+									<td class="questions">
+										<span class="sss">
+											<small>Question 1</small>
+											<strong>{% if l.question1 %}{{ l.question1 }} {% else %} N/A {% endif %}</strong>
+										</span>
+									</td>
+									<td class="questions">
+										<span class="sss">
+											<small>Question 2</small>
+											<strong>{% if l.question2 %}{{ l.question2 }} {% else %} N/A {% endif %}</strong>
+										</span>
+									</td>
+									<td class="questions">
+										<span class="sss">
+											<small>Question 3</small>
+											<strong>{% if l.question3 %}{{ l.question3 }} {% else %} N/A {% endif %}</strong>
+										</span>
+									</td>
+									<td class="questions">
+										<span class="sss">
+											<small>Question 4</small>
+											<strong>{% if l.question4 %}{{ l.question4 }} {% else %} N/A {% endif %}</strong>
+										</span>
+									</td>
+									<td class="questions">
+										<span class="sss">
+											<small>Question 5</small>
+											<strong>{% if l.question5 %}{{ l.question5 }} {% else %} N/A {% endif %}</strong>
+										</span>
+									</td>
+									<td class="questions">
+										<span class="sss">
+											<small>Penalty</small>
+											<span class="penalty">{% if l.penalty == 0 %} None {% else %} {% if l.penalty < 10 %} 0{{l.penalty}}:00 mins {%else%} {{ l.penalty }}:00 mins {% endif %} {% endif %}</span>
+										</span>
+									</td>
+									<td class="questions extra">
+										<span class="marks sss">
+											<small>Total Marks</small>
+											<strong>{{ l.marks }}</strong>
+										</span>
+									</td>
+									<td class="questions extra">
+										<span class="time sss">
+											<small>Total Time</small>
+											<strong>{{ l.time }}</strong>
+										</span>
+									</td>
+								</tr>
+								</tbody>
+							</table>
+						</div>
+
+					{% endfor %}
+
+
+
+
+					
+					<!--<div class="lead">
 						<span class="rank" style="background-color: #90a4ae;">2</span>
 						<table class="none">
 							<tbody>
@@ -324,7 +340,7 @@
 						</table>
 
 
-					</div>
+					</div>-->
 
 
 					
