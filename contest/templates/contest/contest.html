@@ -50,23 +50,23 @@
 					<ul class="collapsible">
 					    <li>
 					        <div class="collapsible-header">Question 1</div>
-					        <div class="collapsible-body"><span>Not attempted yet.</span></div>
+					        <div class="collapsible-body"><span id="q1"></span></div>
 					    </li>
 					    <li>
 					        <div class="collapsible-header">Question 2</div>
-					        <div class="collapsible-body"><span>Not attempted yet.</span></div>
+					        <div class="collapsible-body"><span id="q2">Not attempted yet.</span></div>
 					    </li>
 					    <li>
 					        <div class="collapsible-header">Question 3</div>
-					        <div class="collapsible-body"><span>Not attempted yet.</span></div>
+					        <div class="collapsible-body"><span id="q3">Not attempted yet.</span></div>
 					    </li>
 					    <li>
 					        <div class="collapsible-header">Question 4</div>
-					        <div class="collapsible-body"><span>Not attempted yet.</span></div>
+					        <div class="collapsible-body"><span id="q4">Not attempted yet.</span></div>
 					    </li>
 					    <li>
 					        <div class="collapsible-header">Question 5</div>
-					        <div class="collapsible-body"><span>Not attempted yet.</span></div>
+					        <div class="collapsible-body"><span id="q5">Not attempted yet.</span></div>
 					    </li>
 					</ul>
 
@@ -277,7 +277,7 @@ int main(){
 
 			if(timeLeft<=0){
 				clearTimeout(tm);
-				localStorage.removeItem(name);
+				localStorage.clear();
 				document.getElementById("success-modal").style.display = "block";
 			}
 			else{
@@ -291,11 +291,11 @@ int main(){
 	</script>
 	<script type="text/javascript">
 		$("#finish").click(function(){
-		    localStorage.removeItem(name);
+		    localStorage.clear();
 		});
 
 		$("#give_up").click(function(){
-		    localStorage.removeItem(name);
+		    localStorage.clear();
 		});
 		
 	</script>

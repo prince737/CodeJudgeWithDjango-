@@ -1,6 +1,6 @@
 <html>
 <head>	
-	<title>Code Judge</title>
+	<title>Rules and Regulations</title>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i" rel="stylesheet">
@@ -12,28 +12,82 @@
 	<link rel="icon" type="image/jpg" href="{% static 'assets/icon.png' %}" />
 </head>
 <body>
-	<div id="success-modal">
-		<div class="modalcontent z-depth-4">
-			<div class="modalheader z-depth-1">Rules and Regulations</div>
-			<div class="modalbody">
-				<ol>
-					<li>Compliance with fiscal, academic, research, human relations, or other management standards and requirements imposed by federal or state laws or implementing regulations;</li>
-					<li>Procedures and reporting requirements related to implementation or compliance with policies of the Board of Governors or Board of Trustees, or regulations of the Office of the President;</li>
-					<li>Matters not specifically addressed in Board of Governors or Board of Trustees policies or regulations of the Office of the President that are within the general nature of the chancellor’s delegated responsibilities to administer the institution.</li>
-					<li>The following terminology is used to define and indicate the source of authority for the issuance of various policies, regulations and rules (PRRs) by which the institution governs itself.</li>
-					<li>A “policy” is any standard, statement, or procedure of general applicability adopted by the Board of Trustees pursuant to authority delegated by law or the Board of Governors.</li>
-					<li>The following terminology is used to define and indicate the source of authority for the issuance of various policies, regulations and rules (PRRs) by which the institution governs itself.</li>
-					<li>A “policy” is any standard, statement, or procedure of general applicability adopted by the Board of Trustees pursuant to authority delegated by law or the Board of Governors.</li>
-				</ol>
-			</div>
-			<div class="modalfooter">
-				<a href="/contest/begin/" class="btn">Agree and Begin</a>
-			</div>
-		</div>
+	<div class="contain">
+		<h3>Instructions / Rules</h3>
+		<ul class="collapsible popout">
+		    <li>
+		        <div class="collapsible-header"><i class="material-icons">assignment</i>General</div>
+		        <div class="collapsible-body">
+		        	<ul class="browser-default">
+		        		<li>Maximum of 2 participants is allowed in each Team.</li>
+		        		<li>The event will consist of 2 rounds - Prelims and Finale. Each round will be for 2 hours.</li>
+		        		<li>Top 10 teams from the Prelims will be selected for the finale.</li>
+		        		<li>The winning and 1st Runner up team will be rewarded.</li>
+		        		<li>Both round will contain 5 pure programming problems.</li>
+		        		<li>Each problem will carry 20 marks.</li>
+		        		<li>On submission you will either get Full Marks or none at all depending on the result. (Refer to leaderboard section to find out how ranking works)</li>
+		        		<li>On each submission that is not accepted as correct, +5mins penalty will be added to your total time.</li>
+		        		<li>Participants can use any language from C, C++, Java, Python 3.</li>
+		        		<li>Each team can use only one computer.</li>
+		        		<li>Internet and Book access during the contest is strictly prohibited. If any participant or team is found indulging in unfair means then that participant or team will be disqualified immediately.</li>
+		        		<li>For C/C++, gcc/g++ compiler will be used, for Java, jdk 1.8 will be used, for Python latest version (of 3.x) will be used.
+                        </li>
+		        		<li>External IDE's can be used.</li>
+		        	</ul>
+		        </div>
+		    </li>
+		    <li>
+		        <div class="collapsible-header"><i class="material-icons">code</i>Running your Code</div>
+		        <div class="collapsible-body">
+		        	<ul class="browser-default">
+		        		<li>Below the provided code editor you will find a button "Run Code". Simply clicking that button will run the code currently present in the editor but make sure you choose the correct language from the dropdown.</li>
+		        		<li>By default "Run Code" assumes no input is needed for your code.</li>
+		        		<li>If you want to test your code against custom input, click on the checkbox named "Run against custom input" at the bottom left of the editor. This will open a text areafor you to provide proper input. Then simply click on "Run Code button to test against current input."</li>
+		        	</ul>
+
+		        </div>
+		    </li>
+		    <li>
+		        <div class="collapsible-header"><i class="material-icons">send</i>Submitting your Code</div>
+		        <div class="collapsible-body">
+		        	<ul class="browser-default">
+		        		<li>To submit your code click on "Submit Code" button present at the bottom right corner of the editor.</li>
+		        		<li>It is important that you are on the same question tab which you wish to submit. Being on a certain question tab and submitting for some other question will result in your answer being treated as wrong.</li>
+		        		<li>Upon submitting your code will be tested against hidden test cases.</li>
+		        		<li>
+		        			After you submit 4 cases can happen.
+		        			<ol>
+		        				<li><b>Accepted:</b> This means your code successfully passed all the test cases and 20 points will be added to your total score.</li>
+		        				<li><b>Wrong Answer:</b> This means the output from your code did not match the expected output. 5mins penalty will be added to your total time.</li>
+		        				<li><b>Compilation Error:</b> As the name suggests, this means you code compiled with error. Again 5 mins penalty will be added.</li>
+		        				<li><b>Time Limit Exceeded:</b> This means your algorithm took way too much time and you need to improve it. 5 mins penalty will be added.</li>
+		        			</ol>
+		        		</li>
+		        	</ul>
+		        </div>
+		    </li>
+		    <li>
+		        <div class="collapsible-header"><i class="material-icons">assessment</i>Leaderboard</div>
+		        <div class="collapsible-body">
+		        	<ul class="browser-default">
+		        		<li>Teams will be placed on the leaderboard in descending order of total points earned by them.</li>
+		        		<li>Tie breaking rules: If two teams have equal total points on the leaderboard then the team with the lowest Total Time taken to solve the problems (including the added penalties) will be placed higher than the other.</li>
+		        		<li>The above scoring and ranking system is applicable for all the rounds of this competition.</li>
+		        	</ul>
+		        </div>
+		    </li>
+		</ul>
+		<a href="/contest/begin/" class="btn teal waves-effect">Agree and Begin</a>
 	</div>
+	
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+		    $('.collapsible').collapsible();
+		});
+	</script>
 
 </body>
 </html>

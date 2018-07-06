@@ -1,73 +1,55 @@
-
-#success-modal {
-    position: fixed;
-    font-family: Arial, Helvetica, sans-serif;
-    top: 0;
-    left: 0;
-    background-color: #4e505f;
-    z-index: 99999;
-    height: 100%;
-    width: 100%;
-    
+body{
+	background: #4e505f;/*linear-gradient(to top, #13547a, #1e7292, #3891a6, #59b1b7, #80d0c7);*/
 }
 
-
-.modalcontent {
-    position: absolute;
-    top: 48%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: #f9f9fb;
-    max-width:700px;
-    border-radius: 4px;
+ul.browser-default {
+  padding-left: 30px;
+  margin-top: 10px;
+  margin-bottom: 15px;
+}
+ul.browser-default li {
+  list-style-type: initial;
+}
+.contain{
+	width: 55%;
+	margin: 0 auto;
 }
 
-.modalcontent .modalheader{
-	background:#fff;
-	height:100px;
-	padding: 30px;
-	font-size: 30px;
-	color: #ed344e;
-	border-radius: 4px 4px 0 0;
+.contain h3{
+	margin-top: 8%;
+	margin-left: 2%;
+	margin-right: 2%;
+	color:#fff;
+	padding-bottom: 30px;
+	border-bottom: 1px solid #eeeeee;
+	letter-spacing: 1px;
+	font-weight: 50;
 }
 
-.modalcontent .modalbody{
-	background:#f9f9fb;
-	overflow-y:auto;
-	max-height: 450px;
-	color: #616161;
-	letter-spacing: 0.6px;
+.collapsible{
+	margin-top: 5%;
 }
 
-.modalbody ol{
-	padding: 10px 65px;
+.collapsible .collapsible-body{
+	background-color: #fff;
 }
 
-.modalbody ol li{
-	padding: 5px 0px;
+.collapsible .collapsible-header{
+	color:teal;
+	font-size: 15px;
+	text-transform: uppercase;
+	letter-spacing: 0.7px;
 }
 
-.modalcontent .modalfooter{
-	background:#fff;
-	height:80px;
+.collapsible .collapsible-header:focus{
+	outline: none;
+}
+
+.contain a{
+	display: block;
+	width: 30%;
+	height: 45px;
+	line-height: 45px;
+	margin: 4% auto;
 	text-align: center;
-	padding:23px 0;
-	border-radius: 0 0 4px 4px;
-	box-shadow: 0px -10px 5px #888;
-}
-
-.modalfooter a{
-	background-color: #ed344e;
-	width: 200px;
-	box-shadow: none;
-}
-
-.modalfooter a:hover{
-	background-color: #ed344e;
-	box-shadow: none;
-}
-
-.modalfooter a:focus{
-	background-color: #ed344e;
-	box-shadow: none;
 }

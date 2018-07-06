@@ -108,6 +108,11 @@ def login(request):
 def contest_begin(request):
 
 	questions = question.objects.all()
+	try:
+		print(request.user)
+		submit = submission.objects.get(user=request.user)
+	except submission.DoesNotExist:
+		submit = 'na'
 
 
 	try:
@@ -121,6 +126,7 @@ def contest_begin(request):
 
 
 	context = {
+		'submit' : submit,
 		'questions' : questions,
 		'user' : request.user,
 		'time' : time,
@@ -468,4 +474,4 @@ def lleaderboard(request):
 		pass
 	except KeyError:
 		pass	
-	return render(request, 'contest/leaderboard.html')
+	return redirect('/leaderboard/')

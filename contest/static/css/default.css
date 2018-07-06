@@ -49,6 +49,12 @@ body, html{
 	color:teal;
 }
 
+.collapsible-body span{
+	font-weight: bold;
+	font-size: 16px;
+	letter-spacing: 0.6px;
+}
+
 .attempted .collapsible .collapsible-header{
 	color:teal!important;
 }

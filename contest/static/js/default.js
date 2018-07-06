@@ -39,7 +39,23 @@ $("#q5").click(function(){
 	val = 5;
 });
 
+if(localStorage.getItem("q1") != null){
+	localStorage.getItem("q1");
+}
+else{
+	"Not Attempted Yet!"
+}
 
+var temp = (localStorage.getItem("q1")) ? localStorage.getItem("q1") : "Not Attempted Yet!";
+$("#q1").html(temp);
+temp = (localStorage.getItem("q2")) ? localStorage.getItem("q2") : "Not Attempted Yet!";
+$("#q2").html(temp);
+temp = (localStorage.getItem("q3")) ? localStorage.getItem("q3") : "Not Attempted Yet!";
+$("#q3").html(temp);
+temp = (localStorage.getItem("q4")) ? localStorage.getItem("q4") : "Not Attempted Yet!";
+$("#q4").html(temp);
+temp = (localStorage.getItem("q5")) ? localStorage.getItem("q5") : "Not Attempted Yet!";
+$("#q5").html(temp);
 
 /*Submission of code*/
 $('#codeform').on('submit', function(e){
@@ -55,6 +71,8 @@ $('#codeform').on('submit', function(e){
 	var qid = val;
 	var url = "/contest/begin/";
 
+	var q = 'q'+qid;
+
 
 	if(code.trim()==""){
 		M.toast({html: 'Atleast print "hello world!"',classes: 'rounded custom'});
@@ -63,6 +81,7 @@ $('#codeform').on('submit', function(e){
 
 	var $btn = $(document.activeElement);
 	var event = $btn.prop("id");
+	
 
 	$("#load").show();	
 	$.ajax({
@@ -79,7 +98,6 @@ $('#codeform').on('submit', function(e){
 		},
 		success: function(context){
 			$("#load").hide();
-			var a;
 			if(event == 'submit'){
 				if(context.op == 'Accepted!'){
 					$("#err").hide();
@@ -87,7 +105,8 @@ $('#codeform').on('submit', function(e){
 					$("#wrong").hide();
 					$("#compile").hide();
 					$("#tle").hide();
-					$("#accepted").show()
+					$("#accepted").show();
+					a = "Accepted! Score = 20";
 				}
 				else if(context.op == 'Wrong Answer!'){
 					$("#err").hide();
@@ -95,7 +114,8 @@ $('#codeform').on('submit', function(e){
 					$("#wrong").show();
 					$("#compile").hide();
 					$("#tle").hide();
-					$("#accepted").hide()
+					$("#accepted").hide();
+					a = context.op;
 				}
 				else if(context.op == 'Time Limit Exceeded!'){
 					$("#err").hide();
@@ -103,7 +123,8 @@ $('#codeform').on('submit', function(e){
 					$("#wrong").hide();
 					$("#compile").hide();
 					$("#tle").show();
-					$("#accepted").hide()
+					$("#accepted").hide();
+					a = context.op;
 				}
 				else if(context.op == 'Compilation Error!'){
 					$("#err").hide();
@@ -111,7 +132,8 @@ $('#codeform').on('submit', function(e){
 					$("#wrong").hide();
 					$("#compile").show();
 					$("#tle").hide();
-					$("#accepted").hide()
+					$("#accepted").hide();
+					a = context.op;
 				}
 			}
 			else{
@@ -134,13 +156,19 @@ $('#codeform').on('submit', function(e){
 					
 				$("#output").show();
 				$("#op").html(context.op);
+				var a = "Not Attempted Yet!"
 			}
+
+			localStorage.setItem(q,a);
+			$("#"+q).html(localStorage.getItem(q));
 			
 		}
 	});
-
+ 
 	return false;
 });
+
+
 
 
 
