@@ -218,7 +218,7 @@ def contest_begin(request):
 
 				else: 
 					if mode == 'Python 3':
-						call("cd '%s'; timeout 10s python3 code.py; echo $?" %dir, shell=True, stdout=o, stderr=o)
+						call("cd '%s'; timeout 2s python3 code.py; echo $?" %dir, shell=True, stdout=o, stderr=o)
 					elif mode == 'C / C++':
 						call("cd '%s'; timeout 2s ./a.out; echo $?" %dir, shell=True, stdout=o, stderr=o)
 					elif mode == 'Java 8':
@@ -236,7 +236,6 @@ def contest_begin(request):
 						if mode == 'Python 3':
 							os.remove("%scode.py" %dir)
 						elif mode == 'C / C++':
-							a=8
 							os.remove("%scode.cpp" %dir)
 							os.remove("%sa.out" %dir)
 						elif mode == 'Java 8':
