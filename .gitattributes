@@ -1,2 +1,2 @@
 contest/static/* linguist-vendored=true
-contest/static/plugin/* linguist-vendored=true
+*.html linguist-vendored=true
